@@ -3,742 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anduril BD Operating System — AUS/NZ</title>
+<title>Anduril ANZ — BD Intelligence System</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#010810;--panel:#040d18;--border:#081828;
-  --red:#e84057;--gold:#ffb300;--blue:#00bfff;--green:#00e87a;--purple:#b388ff;
-  --text:#7ab0cc;--muted:#1e4060;
+:root {
+  --bg: #07090d; --bg2: #0d1117; --bg3: #111820; --bg4: #161e28;
+  --border: #1e2a38; --border-bright: #2a3d52;
+  --red: #c8372d; --red-dim: #7a1f1a; --red-faint: rgba(200,55,45,0.07);
+  --amber: #d4840a; --amber-dim: #6b4205;
+  --green: #1f7a4a; --green-bright: #27a863; --green-faint: rgba(39,168,99,0.08);
+  --blue: #1a4f8a; --blue-bright: #2b78d4; --blue-faint: rgba(43,120,212,0.08);
+  --cyan: #0e9ea6; --cyan-faint: rgba(14,158,166,0.08);
+  --text: #c8d4e0; --text-dim: #5a6b7a; --text-mid: #8a9daf;
+  --gold: #c8aa3a; --gold-dim: #5a4a10;
+  --purple: #6a3a9a; --purple-bright: #9a5ad4;
+  --teal: #0d7a6a; --teal-bright: #14b89a;
 }
-body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;overflow:hidden;}
-#hdr{background:rgba(1,6,14,0.98);border-bottom:1px solid #050f1c;padding:8px 16px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
-.hbar{width:3px;height:38px;background:var(--red);}
-.ht-ey{font-size:7px;letter-spacing:5px;color:var(--red);margin-bottom:2px;}
-.ht-mt{font-size:14px;font-weight:700;color:#ddf0ff;letter-spacing:2.5px;}
-.ht-sb{font-size:7px;letter-spacing:3px;color:#0a2035;}
-.hmeta{margin-left:auto;display:flex;gap:20px;}
-.hmi{font-size:7px;letter-spacing:2px;color:#0a2540;text-align:right;}
-.hmi span{display:block;font-size:9px;color:#1a4060;}
-.hbadge{background:rgba(232,64,87,0.1);border:1px solid rgba(232,64,87,0.3);color:var(--red);font-size:7px;letter-spacing:3px;padding:3px 8px;}
-#fbar{background:rgba(2,8,16,0.97);border-bottom:1px solid #040c18;padding:5px 14px;display:flex;gap:4px;flex-shrink:0;align-items:center;flex-wrap:wrap;}
-.flt{background:transparent;border:1px solid transparent;padding:3px 9px;font-size:7.5px;cursor:pointer;letter-spacing:1.5px;font-family:'Courier New',monospace;transition:all 0.12s;}
-#body{display:flex;flex:1;overflow:hidden;}
-
-/* LEFT TENDER PANEL */
-#lp{width:260px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
-#lp-hd{padding:10px 12px 7px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.lp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
-.lp-title{font-size:7px;letter-spacing:3px;color:var(--green);}
-.lp-live{display:flex;align-items:center;gap:4px;font-size:7px;color:var(--green);}
-.ldot{width:5px;height:5px;border-radius:50%;background:var(--green);}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3;}}
-.ldot{animation:pulse 1.8s ease-in-out infinite;}
-.lp-sub{font-size:7px;color:#0a2a3a;letter-spacing:1.5px;}
-#lp-stats{padding:6px 10px;border-bottom:1px solid var(--border);display:flex;gap:5px;flex-shrink:0;}
-.lstat{flex:1;background:rgba(0,10,20,0.5);border:1px solid var(--border);padding:4px 5px;text-align:center;}
-.lstat-v{font-size:12px;font-weight:700;color:#ddf0ff;}
-.lstat-l{font-size:6px;letter-spacing:1.5px;color:#0f2a40;margin-top:1px;}
-#tfeed{flex:1;overflow-y:auto;padding:7px 9px;display:flex;flex-direction:column;gap:5px;}
-#tfeed::-webkit-scrollbar{width:2px;}
-#tfeed::-webkit-scrollbar-thumb{background:#0a2030;}
-.tc{border:1px solid var(--border);background:rgba(0,8,18,0.7);padding:7px 9px;cursor:pointer;transition:border-color 0.15s;}
-.tc:hover,.tc.sel{border-color:rgba(0,191,255,0.3);background:rgba(0,30,60,0.3);}
-.tc-cat{font-size:6.5px;letter-spacing:2px;margin-bottom:3px;}
-.tc-title{font-size:9px;color:#b8d8ec;line-height:1.4;margin-bottom:5px;}
-.tc-r{display:flex;justify-content:space-between;}
-.tc-k{font-size:7px;color:#0f3050;}
-.tc-v{font-size:7px;color:#3a7090;}
-.tc-v.urg{color:var(--red);}
-.tc-bar-bg{height:2px;background:var(--border);margin-top:5px;border-radius:1px;}
-.tc-bar-fill{height:100%;border-radius:1px;}
-.tc-acts{display:flex;gap:4px;margin-top:5px;}
-.tc-btn{flex:1;padding:3px;border:1px solid var(--border);background:transparent;color:#1a4060;font-size:6.5px;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:1px;}
-.tc-btn:hover{color:var(--blue);border-color:rgba(0,191,255,0.3);}
-.tc-disc{font-size:6px;color:#081820;margin-top:3px;padding-top:3px;border-top:1px solid var(--border);font-style:italic;}
-
-/* MAP */
-#mwrap{flex:1;position:relative;overflow:hidden;}
-#msvg{width:100%;height:100%;}
-@keyframes march{to{stroke-dashoffset:-20;}}
-.marching{animation:march 0.7s linear infinite;}
-@keyframes scan{from{transform:translateY(0);}to{transform:translateY(800px);}}
-#scanline{animation:scan 7s linear infinite;}
-
-/* RIGHT PANEL */
-#rp{width:440px;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;}
-#rp-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;}
-.rptab{flex:1;padding:9px 4px;font-size:7px;letter-spacing:2px;cursor:pointer;text-align:center;background:transparent;border:none;border-right:1px solid var(--border);font-family:'Courier New',monospace;transition:all 0.12s;color:#0a2540;}
-.rptab:last-child{border-right:none;}
-.rptab.on{color:#ddf0ff;background:rgba(0,191,255,0.06);}
-#rp-body{flex:1;overflow-y:auto;padding:18px;}
-#rp-body::-webkit-scrollbar{width:2px;}
-#rp-body::-webkit-scrollbar-thumb{background:#0a2030;}
-.rp-ey{font-size:7px;letter-spacing:3px;margin-bottom:5px;}
-.rp-name{font-size:17px;font-weight:700;color:#ddf0ff;line-height:1.3;margin-bottom:13px;}
-.rp-desc{font-size:10.5px;color:#4a8aaa;line-height:1.9;margin-bottom:16px;}
-.rp-slabel{font-size:7px;letter-spacing:3px;margin-bottom:8px;}
-.leg-item{font-size:10px;color:#7aacbc;padding:5px 0;border-bottom:1px solid var(--border);display:flex;gap:7px;}
-.leg-arr{color:var(--gold);opacity:0.4;flex-shrink:0;}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
-.tag{border:1px solid #0a2030;color:#3a7a9a;font-size:8.5px;padding:3px 8px;}
-.rp-link{display:flex;align-items:center;gap:7px;padding:9px 11px;border:1px solid var(--border);background:rgba(0,12,26,0.5);color:#1a5a7a;font-size:9.5px;text-decoration:none;margin-bottom:9px;}
-.rp-link:hover{color:var(--blue);border-color:rgba(0,191,255,0.25);}
-.bda{background:rgba(0,191,255,0.04);border:1px solid rgba(0,191,255,0.1);padding:13px;margin-bottom:12px;}
-.bda-h{font-size:7px;letter-spacing:2px;color:var(--blue);margin-bottom:7px;}
-.bda-t{font-size:10.5px;color:#3a7a9a;line-height:1.85;}
-.gblock{border:1px solid var(--border);padding:11px;margin-bottom:9px;background:rgba(0,6,14,0.5);}
-.gblock-h{font-size:7px;letter-spacing:2px;margin-bottom:7px;}
-.gblock-r{font-size:9px;color:#2a5070;padding:3px 0;border-bottom:1px solid #04090e;display:flex;gap:6px;}
-.gblock-n{color:#0f2a40;}
-.gblock-t{font-size:10px;color:#1a4060;line-height:1.85;}
-.cat-entry{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 0;}
-.cat-entry:hover .cat-nm{color:#8ab0cc;}
-.cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.cat-nm{font-size:9.5px;color:#1e4060;}
-.desel{width:100%;padding:9px;background:transparent;border:1px solid var(--border);color:#0f2a40;font-size:8px;cursor:pointer;letter-spacing:2px;font-family:'Courier New',monospace;margin-top:7px;}
-.desel:hover{color:#3a6a8a;border-color:#0a2a40;}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Barlow',sans-serif; font-size:14px; line-height:1.5; min-height:100vh; }
+.header { background:var(--bg2); border-bottom:1px solid var(--red); padding:14px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+.logo { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; letter-spacing:3px; color:#fff; text-transform:uppercase; }
+.logo span { color:var(--red); }
+.header-tag { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; border:1px solid var(--border); padding:2px 8px; border-radius:2px; margin-left:14px; }
+.header-right { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text-dim); text-align:right; }
+.header-right span { color:var(--green-bright); }
+.layout { display:grid; grid-template-columns:260px 1fr; height:calc(100vh - 51px); overflow:hidden; }
+.sidebar { background:var(--bg2); border-right:1px solid var(--border); overflow-y:auto; }
+.sidebar-section { padding:14px; border-bottom:1px solid var(--border); }
+.sidebar-title { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px; }
+.product-btn { display:block; width:100%; text-align:left; background:transparent; border:1px solid transparent; border-radius:3px; padding:7px 9px; margin-bottom:3px; cursor:pointer; transition:all 0.15s; color:var(--text-mid); }
+.product-btn:hover { border-color:var(--border-bright); background:var(--bg3); color:var(--text); }
+.product-btn.active { border-color:var(--red); background:var(--red-faint); color:#fff; }
+.pname { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.5px; display:block; }
+.pcategory { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text-dim); margin-top:1px; display:block; }
+.product-btn.active .pcategory { color:var(--red-dim); }
+.status-dot { display:inline-block; width:5px; height:5px; border-radius:50%; margin-right:5px; vertical-align:middle; }
+.dot-contracted { background:var(--green-bright); }
+.dot-active { background:var(--blue-bright); }
+.dot-pitched { background:var(--amber); }
+.dot-potential { background:var(--text-dim); }
+.legend { padding:10px 14px; }
+.legend-title { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
+.legend-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; font-size:11px; color:var(--text-dim); }
+.main { overflow-y:auto; padding:24px 28px; background:var(--bg); }
+.product-header { display:grid; grid-template-columns:1fr auto; gap:20px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+.product-name { font-family:'Barlow Condensed',sans-serif; font-size:32px; font-weight:700; letter-spacing:1px; color:#fff; line-height:1; margin-bottom:5px; }
+.product-name .hl { color:var(--red); }
+.product-subtitle { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
+.product-status-badge { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:1px; padding:3px 10px; border-radius:2px; text-transform:uppercase; white-space:nowrap; align-self:flex-start; margin-top:6px; }
+.badge-contracted { background:rgba(39,168,99,0.1); border:1px solid var(--green-bright); color:var(--green-bright); }
+.badge-active { background:var(--blue-faint); border:1px solid var(--blue-bright); color:var(--blue-bright); }
+.badge-pitched { background:rgba(212,132,10,0.1); border:1px solid var(--amber); color:var(--amber); }
+.badge-potential { background:rgba(90,107,122,0.1); border:1px solid var(--text-dim); color:var(--text-dim); }
+.tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:20px; overflow-x:auto; }
+.tab-btn { background:transparent; border:none; border-bottom:2px solid transparent; padding:9px 14px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:1px; color:var(--text-dim); cursor:pointer; text-transform:uppercase; transition:all 0.15s; margin-bottom:-1px; white-space:nowrap; }
+.tab-btn:hover { color:var(--text); }
+.tab-btn.active { color:#fff; border-bottom-color:var(--red); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+.section-label { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px; margin-top:20px; }
+.section-label:first-child { margin-top:0; }
+p { color:var(--text-mid); font-size:13px; line-height:1.65; margin-bottom:12px; }
+p strong { color:var(--text); font-weight:600; }
+.iip-grid { display:grid; gap:8px; }
+.iip-row { background:var(--bg2); border:1px solid var(--border); border-radius:3px; padding:12px 14px; display:grid; grid-template-columns:210px 1fr auto; gap:14px; align-items:start; }
+.iip-row:hover { border-color:var(--border-bright); }
+.iip-row.primary { border-left:3px solid var(--red); }
+.iip-row.secondary { border-left:3px solid var(--blue-bright); }
+.iip-row.tertiary { border-left:3px solid var(--text-dim); }
+.iip-chapter { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text-dim); margin-bottom:2px; }
+.iip-name { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--text); }
+.iip-budget { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--gold); margin-top:2px; }
+.iip-desc { font-size:12px; color:var(--text-dim); line-height:1.5; }
+.iip-fit { font-family:'Share Tech Mono',monospace; font-size:9px; padding:3px 7px; border-radius:2px; white-space:nowrap; text-transform:uppercase; }
+.fit-primary { background:rgba(200,55,45,0.1); border:1px solid var(--red-dim); color:var(--red); }
+.fit-secondary { background:var(--blue-faint); border:1px solid var(--blue); color:var(--blue-bright); }
+.fit-tertiary { background:rgba(90,107,122,0.08); border:1px solid var(--border); color:var(--text-dim); }
+.fit-pitched { background:rgba(212,132,10,0.08); border:1px solid var(--amber-dim); color:var(--amber); }
+.specs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px; }
+.spec-card { background:var(--bg2); border:1px solid var(--border); border-radius:3px; padding:10px 12px; }
+.spec-label { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--text-dim); text-transform:uppercase; margin-bottom:4px; }
+.spec-value { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:14px; color:var(--text); }
+.bd-card { background:var(--red-faint); border:1px solid rgba(200,55,45,0.2); border-radius:3px; padding:16px 18px; margin-bottom:14px; }
+.bd-card-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:1px; color:var(--red); text-transform:uppercase; margin-bottom:6px; }
+.bd-list { list-style:none; }
+.bd-list li { font-size:12px; color:var(--text-mid); padding:4px 0 4px 14px; position:relative; border-bottom:1px solid rgba(30,42,56,0.5); line-height:1.5; }
+.bd-list li:last-child { border-bottom:none; }
+.bd-list li::before { content:'→'; position:absolute; left:0; color:var(--red); font-size:10px; top:5px; }
+.alert { background:rgba(212,132,10,0.06); border:1px solid rgba(212,132,10,0.25); border-radius:3px; padding:10px 12px; font-size:12px; color:var(--text-dim); margin-bottom:14px; }
+.alert strong { color:var(--amber); }
+.tender-doc { background:var(--bg2); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+.tender-header { background:var(--bg3); border-bottom:1px solid var(--border); padding:14px 18px; display:grid; grid-template-columns:1fr auto; align-items:start; }
+.tender-ref { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text-dim); margin-bottom:3px; }
+.tender-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; color:#fff; }
+.tender-meta { text-align:right; }
+.tender-type { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--blue-bright); border:1px solid var(--blue); padding:2px 8px; border-radius:2px; margin-bottom:4px; display:inline-block; }
+.tender-value { font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--gold); }
+.tender-body { padding:18px; }
+.tender-section { margin-bottom:16px; }
+.tender-section-label { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--red); text-transform:uppercase; margin-bottom:6px; padding-bottom:4px; border-bottom:1px solid rgba(200,55,45,0.2); }
+.tender-text { font-size:12px; color:var(--text-mid); line-height:1.65; }
+.tender-list { list-style:none; }
+.tender-list li { font-size:12px; color:var(--text-mid); padding:3px 0 3px 14px; position:relative; }
+.tender-list li::before { content:'▸'; position:absolute; left:0; color:var(--blue-bright); font-size:9px; top:4px; }
+.tender-compliance { display:flex; flex-wrap:wrap; gap:6px; }
+.compliance-tag { font-family:'Share Tech Mono',monospace; font-size:9px; padding:3px 8px; background:var(--green-faint); border:1px solid rgba(39,168,99,0.3); color:var(--green-bright); border-radius:2px; }
+.kanban-board { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; min-height:300px; }
+.kanban-col { background:var(--bg2); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+.kanban-col-header { padding:8px 10px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.kanban-col-title { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; font-weight:600; }
+.kc-identify .kanban-col-title { color:var(--blue-bright); }
+.kc-qualify .kanban-col-title { color:var(--cyan); }
+.kc-shape .kanban-col-title { color:var(--amber); }
+.kc-bid .kanban-col-title { color:var(--red); }
+.kc-award .kanban-col-title { color:var(--green-bright); }
+.kanban-count { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text-dim); background:var(--bg3); padding:1px 6px; border-radius:10px; }
+.kanban-cards { padding:8px; display:flex; flex-direction:column; gap:6px; }
+.kanban-card { background:var(--bg3); border:1px solid var(--border); border-radius:3px; padding:8px 10px; cursor:default; transition:border-color 0.15s; }
+.kanban-card:hover { border-color:var(--border-bright); }
+.kc-identify .kanban-card { border-left:2px solid var(--blue-bright); }
+.kc-qualify .kanban-card { border-left:2px solid var(--cyan); }
+.kc-shape .kanban-card { border-left:2px solid var(--amber); }
+.kc-bid .kanban-card { border-left:2px solid var(--red); }
+.kc-award .kanban-card.won { border-left:2px solid var(--green-bright); background:var(--green-faint); }
+.kc-award .kanban-card.lost { border-left:2px solid var(--red-dim); background:var(--red-faint); }
+.kc-award .kanban-card.pending { border-left:2px solid var(--text-dim); }
+.kcard-title { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; color:var(--text); line-height:1.3; margin-bottom:4px; }
+.kcard-meta { display:flex; align-items:center; gap:5px; flex-wrap:wrap; margin-top:4px; }
+.kcard-owner { font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--text-dim); background:var(--bg2); padding:1px 5px; border-radius:2px; }
+.kcard-priority { font-family:'Share Tech Mono',monospace; font-size:8px; padding:1px 5px; border-radius:2px; }
+.priority-high { background:rgba(200,55,45,0.1); border:1px solid var(--red-dim); color:var(--red); }
+.priority-med { background:rgba(212,132,10,0.1); border:1px solid var(--amber-dim); color:var(--amber); }
+.priority-low { background:rgba(90,107,122,0.08); color:var(--text-dim); border:1px solid var(--border); }
+.kcard-note { font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.4; }
+.kcard-due { font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--text-dim); margin-top:4px; }
+.timeline-wrapper { background:var(--bg2); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+.timeline-header-row { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-bottom:1px solid var(--border); background:var(--bg3); }
+.timeline-title-lg { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; color:#fff; }
+.timeline-target-badge { font-family:'Share Tech Mono',monospace; font-size:9px; padding:2px 8px; border-radius:2px; background:var(--green-faint); border:1px solid rgba(39,168,99,0.3); color:var(--green-bright); }
+.timeline-body { padding:14px; }
+.timeline-week-labels { display:flex; margin-bottom:6px; margin-left:130px; }
+.timeline-week-label { font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--text-dim); text-align:center; flex:1; }
+.timeline-row { display:flex; align-items:center; margin-bottom:6px; }
+.timeline-phase-label { width:130px; flex-shrink:0; font-size:11px; color:var(--text-mid); padding-right:10px; font-family:'Barlow Condensed',sans-serif; font-weight:600; }
+.timeline-track { flex:1; position:relative; height:20px; background:var(--bg3); border-radius:2px; }
+.timeline-bar { position:absolute; top:3px; height:14px; border-radius:2px; display:flex; align-items:center; padding:0 4px; }
+.timeline-bar span { font-family:'Share Tech Mono',monospace; font-size:7px; color:rgba(255,255,255,0.6); white-space:nowrap; overflow:hidden; }
+.timeline-target-line { position:absolute; top:0; width:2px; height:100%; background:rgba(200,55,45,0.5); z-index:10; }
+.target-line-label { font-family:'Share Tech Mono',monospace; font-size:7px; color:var(--red); white-space:nowrap; position:absolute; top:-14px; left:-10px; }
+.timeline-legend { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.tl-legend-item { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--text-dim); }
+.tl-legend-dot { width:10px; height:10px; border-radius:2px; }
+.timeline-milestones-list { margin-top:12px; display:flex; flex-direction:column; gap:4px; }
+.milestone-item { display:flex; align-items:center; gap:10px; font-size:11px; color:var(--text-dim); }
+.milestone-week-tag { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--gold); width:50px; flex-shrink:0; }
+.overview-table { width:100%; border-collapse:collapse; margin-bottom:16px; }
+.overview-table th { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--text-dim); text-transform:uppercase; text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); background:var(--bg2); }
+.overview-table td { padding:9px 10px; border-bottom:1px solid rgba(30,42,56,0.4); vertical-align:middle; }
+.overview-table tr:hover td { background:rgba(13,17,23,0.4); }
+.pn-link { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--text); cursor:pointer; }
+.pn-link:hover { color:var(--red); }
+.tam-funnel { display:flex; flex-direction:column; gap:6px; margin-bottom:24px; }
+.tam-tier { display:flex; align-items:center; gap:12px; }
+.tam-bar-wrap { flex:1; position:relative; height:34px; background:var(--bg3); border-radius:3px; overflow:hidden; }
+.tam-bar-fill { height:100%; border-radius:3px; display:flex; align-items:center; padding:0 12px; transition:width 0.5s; }
+.tam-bar-label { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:#fff; white-space:nowrap; }
+.tam-tier-meta { width:180px; flex-shrink:0; text-align:right; }
+.tam-tier-name { font-size:11px; color:var(--text-mid); margin-bottom:1px; }
+.tam-tier-value { font-family:'Share Tech Mono',monospace; font-size:12px; color:var(--gold); }
+.tam-segments { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:24px; }
+.tam-segment-card { background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:14px; }
+.tam-seg-name { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; color:var(--text); margin-bottom:3px; }
+.tam-seg-total { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text-dim); margin-bottom:8px; }
+.tam-seg-bar-wrap { height:8px; background:var(--bg3); border-radius:4px; margin-bottom:4px; }
+.tam-seg-bar { height:8px; border-radius:4px; background:var(--red); }
+.tam-seg-share { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--gold); }
+.tam-headline { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:24px; }
+.tam-headline-card { background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px; text-align:center; }
+.tam-headline-val { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:28px; color:#fff; margin-bottom:3px; }
+.tam-headline-val .c { color:var(--red); }
+.tam-headline-sub { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+.tam-headline-note { font-size:11px; color:var(--text-dim); margin-top:4px; }
+.gtm-pillars { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:24px; }
+.gtm-pillar { background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px; border-left:3px solid var(--red); }
+.gtm-pillar-num { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--red); letter-spacing:2px; margin-bottom:5px; }
+.gtm-pillar-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; color:#fff; margin-bottom:6px; }
+.gtm-pillar-body { font-size:12px; color:var(--text-dim); line-height:1.55; }
+.gtm-pillar-kpi { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--amber); margin-top:8px; }
+.gtm-tiers { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:24px; }
+.gtm-tier-card { background:var(--bg2); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+.gtm-tier-header { padding:8px 12px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.gtm-tier-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; }
+.gtm-tier-label { font-family:'Share Tech Mono',monospace; font-size:8px; padding:2px 7px; border-radius:2px; }
+.tier1 .gtm-tier-header { background:rgba(200,55,45,0.07); }
+.tier1 .gtm-tier-title { color:var(--red); }
+.tier1 .gtm-tier-label { background:rgba(200,55,45,0.1); border:1px solid var(--red-dim); color:var(--red); }
+.tier2 .gtm-tier-header { background:var(--blue-faint); }
+.tier2 .gtm-tier-title { color:var(--blue-bright); }
+.tier2 .gtm-tier-label { background:var(--blue-faint); border:1px solid var(--blue); color:var(--blue-bright); }
+.tier3 .gtm-tier-header { background:rgba(90,107,122,0.06); }
+.tier3 .gtm-tier-title { color:var(--text-mid); }
+.tier3 .gtm-tier-label { background:rgba(90,107,122,0.1); border:1px solid var(--border); color:var(--text-dim); }
+.gtm-tier-contacts { padding:8px 12px; }
+.gtm-contact { font-size:11px; color:var(--text-mid); padding:3px 0; border-bottom:1px solid rgba(30,42,56,0.4); }
+.gtm-contact:last-child { border-bottom:none; }
+.gtm-contact span { font-size:10px; color:var(--text-dim); display:block; }
+.plan-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:24px; }
+.plan-col { background:var(--bg2); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+.plan-col-header { padding:8px 12px; border-bottom:1px solid var(--border); text-align:center; }
+.plan-col-days { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; }
+.plan-col-sub { font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--text-dim); text-transform:uppercase; }
+.d30 .plan-col-days { color:var(--blue-bright); }
+.d60 .plan-col-days { color:var(--amber); }
+.d90 .plan-col-days { color:var(--green-bright); }
+.plan-items { padding:10px 12px; }
+.plan-item { font-size:11px; color:var(--text-dim); padding:4px 0 4px 12px; position:relative; border-bottom:1px solid rgba(30,42,56,0.3); line-height:1.45; }
+.plan-item:last-child { border-bottom:none; }
+.plan-item::before { content:'▸'; position:absolute; left:0; font-size:8px; color:var(--red); top:5px; }
+.capture-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:24px; }
+.capture-stage { background:var(--bg2); border:1px solid var(--border); border-radius:3px; padding:12px 10px; text-align:center; position:relative; }
+.capture-stage::after { content:'→'; position:absolute; right:-10px; top:50%; transform:translateY(-50%); color:var(--text-dim); font-size:12px; z-index:2; }
+.capture-stage:last-child::after { display:none; }
+.cs-num { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text-dim); margin-bottom:4px; }
+.cs-name { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; color:var(--text); margin-bottom:4px; }
+.cs-prob { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--gold); margin-bottom:6px; }
+.cs-gate { font-size:10px; color:var(--text-dim); line-height:1.4; }
+.kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.kpi-card { background:var(--bg2); border:1px solid var(--border); border-radius:3px; padding:12px; }
+.kpi-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.kpi-value { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; color:#fff; margin-bottom:2px; }
+.kpi-value .c { color:var(--red); }
+.kpi-note { font-size:10px; color:var(--text-dim); }
+.scrollbar::-webkit-scrollbar { width:4px; }
+.scrollbar::-webkit-scrollbar-track { background:var(--bg2); }
+.scrollbar::-webkit-scrollbar-thumb { background:var(--border-bright); border-radius:2px; }
+.view-btn { background:transparent; border:1px solid var(--border); border-radius:3px; padding:6px 9px; margin-bottom:3px; cursor:pointer; transition:all 0.15s; color:var(--text-dim); display:block; width:100%; text-align:left; }
+.view-btn:hover { border-color:var(--border-bright); background:var(--bg3); color:var(--text); }
+.view-btn.active { border-color:var(--gold); background:rgba(200,170,58,0.07); color:var(--gold); }
+.view-btn.active .pname { color:var(--gold); }
+.view-btn.active .pcategory { color:var(--gold-dim); }
 </style>
 </head>
 <body>
-
-<div id="hdr">
-  <div class="hbar"></div>
-  <div>
-    <div class="ht-ey">ANDURIL INDUSTRIES // BUSINESS DEVELOPMENT INTELLIGENCE</div>
-    <div class="ht-mt">AUSTRALIAN DEFENCE OPERATING SYSTEM</div>
-    <div class="ht-sb">GOVERNANCE · PROCUREMENT · COMMAND NODES · LIVE ACQUISITION FEED · UNCLASSIFIED</div>
+<div class="header">
+  <div style="display:flex;align-items:center">
+    <div class="logo">ANDURIL<span>.</span>ANZ</div>
+    <div class="header-tag">BD INTELLIGENCE SYSTEM v2</div>
   </div>
-  <div class="hmeta">
-    <div class="hmi">REGION<span>AUS / NZ</span></div>
-    <div class="hmi">THEATRE<span>INDO-PACIFIC</span></div>
-    <div class="hmi">FRAMEWORK<span>DSR 2023 + NDS 2024</span></div>
-    <div class="hbadge">BD MODE ACTIVE</div>
-  </div>
+  <div class="header-right">MICHAEL ELLIOTT — DIRECTOR BD APPLICATION<br><span>OPEN SOURCE INTEL | MARCH 2026</span></div>
 </div>
-
-<div id="fbar"></div>
-
-<div id="body">
-  <div id="lp">
-    <div id="lp-hd">
-      <div class="lp-row">
-        <div class="lp-title">ACQUISITION FEED</div>
-        <div class="lp-live"><div class="ldot"></div>LIVE</div>
-      </div>
-      <div class="lp-sub">AusTender · Defence · Open Approaches</div>
+<div class="layout">
+  <div class="sidebar scrollbar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Products</div>
+      <button class="product-btn" onclick="doLoad('ghost_shark',this)">
+        <span class="pname"><span class="status-dot dot-contracted"></span>Ghost Shark XL-AUV</span>
+        <span class="pcategory">AUTONOMOUS UNDERSEA VEHICLE</span>
+      </button>
+      <button class="product-btn" onclick="doLoad('lattice',this)">
+        <span class="pname"><span class="status-dot dot-active"></span>Lattice OS</span>
+        <span class="pcategory">C2 / AI AUTONOMY PLATFORM</span>
+      </button>
+      <button class="product-btn" onclick="doLoad('sentry',this)">
+        <span class="pname"><span class="status-dot dot-active"></span>Sentry Tower</span>
+        <span class="pcategory">AUTONOMOUS SURVEILLANCE</span>
+      </button>
+      <button class="product-btn" onclick="doLoad('roadrunner',this)">
+        <span class="pname"><span class="status-dot dot-potential"></span>Roadrunner-M</span>
+        <span class="pcategory">CUAS INTERCEPTOR</span>
+      </button>
+      <button class="product-btn" onclick="doLoad('pulsar',this)">
+        <span class="pname"><span class="status-dot dot-potential"></span>Pulsar-L / EW Suite</span>
+        <span class="pcategory">ELECTRONIC WARFARE / CUAS</span>
+      </button>
+      <button class="product-btn" onclick="doLoad('fury',this)">
+        <span class="pname"><span class="status-dot dot-pitched"></span>Fury (YFQ-44A)</span>
+        <span class="pcategory">COLLABORATIVE COMBAT AIRCRAFT</span>
+      </button>
+      <button class="product-btn" onclick="doLoad('ghost_uas',this)">
+        <span class="pname"><span class="status-dot dot-potential"></span>Ghost UAS Family</span>
+        <span class="pcategory">GROUP 1-3 TACTICAL UAS</span>
+      </button>
+      <button class="product-btn" onclick="doLoad('altius',this)">
+        <span class="pname"><span class="status-dot dot-potential"></span>ALTIUS / Loitering Munitions</span>
+        <span class="pcategory">EXPENDABLE UAS / STRIKE</span>
+      </button>
     </div>
-    <div id="lp-stats">
-      <div class="lstat"><div class="lstat-v" id="st-open">—</div><div class="lstat-l">OPEN ATM</div></div>
-      <div class="lstat"><div class="lstat-v" id="st-urg">—</div><div class="lstat-l">CLOSING 30D</div></div>
-      <div class="lstat"><div class="lstat-v" id="st-val">—</div><div class="lstat-l">TOTAL $B</div></div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Intelligence Views</div>
+      <button class="view-btn" onclick="doLoadView('overview',this)">
+        <span class="pname">Product Matrix</span>
+        <span class="pcategory">ALL PRODUCTS × IIP LINES</span>
+      </button>
+      <button class="view-btn" onclick="doLoadView('tam',this)">
+        <span class="pname">TAM Overview</span>
+        <span class="pcategory">MARKET SIZING &amp; PIPELINE</span>
+      </button>
+      <button class="view-btn" onclick="doLoadView('gtm',this)">
+        <span class="pname">Director GTM</span>
+        <span class="pcategory">GO-TO-MARKET FRAMEWORK</span>
+      </button>
     </div>
-    <div id="tfeed"></div>
-  </div>
-
-  <div id="mwrap">
-    <svg id="msvg" viewBox="0 0 700 720" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <linearGradient id="sg" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stop-color="#0099ff" stop-opacity="0"/>
-          <stop offset="50%" stop-color="#0099ff" stop-opacity="0.02"/>
-          <stop offset="100%" stop-color="#0099ff" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      <g id="gg"></g>
-      <g id="ggl"></g>
-      <g id="gl"></g>
-      <g id="ge"></g>
-      <g id="gn"></g>
-      <g id="gb"></g>
-      <rect id="scanline" x="0" y="-40" width="700" height="70" fill="url(#sg)" style="pointer-events:none"/>
-    </svg>
-  </div>
-
-  <div id="rp">
-    <div id="rp-tabs">
-      <button class="rptab on" id="tab-entity" onclick="switchTab('entity')">ENTITY</button>
-      <button class="rptab" id="tab-legal" onclick="switchTab('legal')">LEGAL</button>
-      <button class="rptab" id="tab-bd" onclick="switchTab('bd')">BD ANGLE</button>
-      <button class="rptab" id="tab-guide" onclick="switchTab('guide')">GUIDE</button>
+    <div class="legend">
+      <div class="legend-title">ADF Status</div>
+      <div class="legend-row"><span class="status-dot dot-contracted"></span>CONTRACTED — live program</div>
+      <div class="legend-row"><span class="status-dot dot-active"></span>ACTIVE — deployed/embedded</div>
+      <div class="legend-row"><span class="status-dot dot-pitched"></span>PITCHED — under evaluation</div>
+      <div class="legend-row"><span class="status-dot dot-potential"></span>POTENTIAL — no active bid</div>
     </div>
-    <div id="rp-body"></div>
   </div>
+  <div class="main scrollbar" id="main"></div>
 </div>
-
 <script>
-// ── GEO ──────────────────────────────────────────────────────────────────────
-function geo(lon, lat) {
-  return {
-    x: Math.round(((lon - 112) / 58) * 660 + 20),
-    y: Math.round(((Math.abs(lat) - 10) / 38) * 680 + 20)
-  };
-}
-
-// ── CATEGORIES ───────────────────────────────────────────────────────────────
-var CATS = {
-  dept:  { label: "Departments & Commands",    color: "#00e87a" },
-  proc:  { label: "Procurement & Acquisition", color: "#00bfff" },
-  leg:   { label: "Policy & Legislation",      color: "#ffb300" },
-  intel: { label: "Intelligence & Signals",    color: "#b388ff" },
-  ally:  { label: "Alliances & Partnerships",  color: "#e84057" },
-  site:  { label: "Strategic Facilities",      color: "#ffe066" }
-};
-
-// ── NODES ────────────────────────────────────────────────────────────────────
-var NODES = [
-  {
-    id:"dod", s:"DoD", label:"Department of Defence", cat:"dept", lon:149.1, lat:-35.3,
-    desc:"Overarching Commonwealth department for defence policy, strategy, and ADF coordination. Headquartered at Russell Offices, Canberra. The Secretary of Defence and the Chief of Defence Force jointly lead the department.",
-    legal:["Defence Act 1903","PGPA Act 2013","Intelligence Services Act 2001"],
-    links:["CASG","ADF","ASD","DST Group","AUKUS"],
-    bd:"Primary policy setter. Entry via CASG for procurement, but relationship investment at SES Band 2+ within DoD shapes which capabilities get prioritised in the IIP. Russell Offices is the strategic centre of gravity.",
-    url:"https://www.defence.gov.au"
-  },
-  {
-    id:"casg", s:"CASG", label:"Capability Acquisition & Sustainment Group", cat:"proc", lon:149.7, lat:-35.1,
-    desc:"Primary procurement and sustainment arm of the ADF. Manages the full capability lifecycle from requirements through acquisition to disposal. Organised into domain branches: Land, Maritime, Air, Space, Cyber, and Joint. Primary gateway for industry entry.",
-    legal:["Commonwealth Procurement Rules","ASDEFCON Contract Suite","Defence Act 1903"],
-    links:["AusTender","ASDEFCON","DISP","IIP"],
-    bd:"Know your domain branch director before lodging a proposal. The Defence Industry Portal lists DISP-registered contacts. Attend Land Forces, Pacific International Maritime Expo, and Indo Pacific Defence to map branch-level relationships.",
-    url:"https://www.defence.gov.au/casg"
-  },
-  {
-    id:"adf", s:"ADF", label:"Australian Defence Force", cat:"dept", lon:149.5, lat:-34.8,
-    desc:"Tri-service force: Royal Australian Navy (RAN), Australian Army, and Royal Australian Air Force (RAAF). Commanded by the Chief of Defence Force. End-users of acquired capabilities — user requirements flow up from the Services through CASG to market.",
-    legal:["Defence Act 1903","Defence Force Discipline Act 1982"],
-    links:["RAAF Darwin","HMAS Stirling","NZDF","AUKUS"],
-    bd:"Service requirements often precede formal CASG ATM by 2-3 years. Build relationships at the Directorate level within each Service to shape requirements before they reach formal acquisition. Capability managers are the key contacts.",
-    url:"https://www.adf.mil.au"
-  },
-  {
-    id:"asd", s:"ASD", label:"Australian Signals Directorate", cat:"intel", lon:148.8, lat:-34.7,
-    desc:"Foreign signals intelligence, cyber operations, and information security. Statutory agency within the Defence portfolio. Operates jointly with NSA, GCHQ, CSEC, and GCSB through Five Eyes. ASD leads the AUKUS Pillar II cyber workstream.",
-    legal:["Intelligence Services Act 2001","Australian Signals Directorate Act 2018"],
-    links:["Five Eyes","Pine Gap"],
-    bd:"NV2 clearance or above required for ASD engagement. AUKUS Pillar II creates entry via the Advanced Capabilities Steering Group. ASD is acquiring autonomous cyber capabilities with direct alignment to Anduril Lattice OS.",
-    url:"https://www.asd.gov.au"
-  },
-  {
-    id:"dstg", s:"DST Group", label:"Defence Science & Technology Group", cat:"dept", lon:138.6, lat:-34.7,
-    desc:"Scientific research and technical advisory support for Defence capability. HMAS Edinburgh (SA) leads autonomous systems, AI, and electronic warfare research. Fishermans Bend (VIC) covers aerospace and maritime. DST is a key pre-procurement technology evaluator.",
-    legal:["Science and Industry Research Act 1949"],
-    links:["DoD","CASG"],
-    bd:"DST co-invests in technology demonstrators before formal procurement. A CRVP (Capability and Research Vehicle Programme) engagement with DST is a recognised pathway to CASG acquisition.",
-    url:"https://www.dst.defence.gov.au"
-  },
-  {
-    id:"austender", s:"AusTender", label:"AusTender", cat:"proc", lon:148.3, lat:-35.6,
-    desc:"Commonwealth public procurement portal. All contracts above $10,000 are published here. Defence contracts may be partially redacted under national security provisions. Primary market intelligence tool for defence industry.",
-    legal:["Commonwealth Procurement Rules","PGPA Act 2013"],
-    links:["CASG","CPR"],
-    bd:"Run weekly AusTender searches filtered by agency (Defence) and ATM type (RFT, EOI, RFI). Track awarded contracts to understand incumbents, contract values, and renewal cycles. That is your pipeline intelligence.",
-    url:"https://www.tenders.gov.au"
-  },
-  {
-    id:"asdefcon", s:"ASDEFCON", label:"ASDEFCON Contract Suite", cat:"proc", lon:149.0, lat:-36.1,
-    desc:"Australian Standard for Defence Contracting — standardised contract templates mandatory for major acquisitions. Suite covers Supplies (hardware), Services, R&D, and Facilities. Templates define IP rights, acceptance criteria, and sustainment obligations.",
-    legal:["Commonwealth Procurement Rules"],
-    links:["CASG","DoD"],
-    bd:"Review ASDEFCON templates before any capability pitch. Understanding the IP ownership provisions (Attachment H) and acceptance test provisions is critical for a technology company pitching novel autonomous systems.",
-    url:"https://www.defence.gov.au/business-industry/contracts/asdefcon"
-  },
-  {
-    id:"disp", s:"DISP", label:"Defence Industry Security Program", cat:"proc", lon:149.9, lat:-35.8,
-    desc:"Mandatory security framework for companies accessing classified Defence information or facilities. DISP membership levels: Associate, Member, Top Secret. Higher tiers require facility security clearances and cleared personnel. DISP is the gateway to genuine Defence partnership.",
-    legal:["DISP Policy Framework 2021","PGPA Act 2013"],
-    links:["CASG","ASD"],
-    bd:"Initiate DISP application immediately — processing takes 6-18 months. Without DISP you cannot access classified requirements, restricted facilities, or meaningful AUKUS Pillar II engagement. It is a table-stakes prerequisite.",
-    url:"https://www.defence.gov.au/business-industry/industry-security"
-  },
-  {
-    id:"iip", s:"IIP", label:"Integrated Investment Program", cat:"leg", lon:150.5, lat:-35.2,
-    desc:"Ten-year rolling roadmap of planned ADF capability investments (approx $330B over ten years post-NDS 2024). Major investment areas: long-range strike, undersea warfare, autonomous systems and AI, northern Australia hardening, space domain awareness, and cyber.",
-    legal:["National Defence Strategy 2024","Defence Strategic Review 2023"],
-    links:["DoD","CASG"],
-    bd:"Know the IIP line items that align to Anduril capabilities: Ghost Shark AUV (JP 9102), Autonomous Undersea Systems, Integrated Air and Missile Defence (AIR 6500), and Long Range Land Strike. Each line item is a potential entry point.",
-    url:"https://www.defence.gov.au/about/strategic-planning/integrated-investment-program"
-  },
-  {
-    id:"aukus", s:"AUKUS", label:"AUKUS Partnership", cat:"ally", lon:150.0, lat:-34.5,
-    desc:"Trilateral security partnership: Australia, United Kingdom, United States. Pillar I: nuclear-powered submarines (SSN-AUKUS). Pillar II: eight advanced capability tracks including AI, quantum, hypersonics, electronic warfare, cyber, undersea, space, and strike. Pillar II is the primary Anduril entry vector.",
-    legal:["National Defence Strategy 2024","AUKUS Optimal Pathway Agreement 2023"],
-    links:["Five Eyes","HMAS Stirling","ADF"],
-    bd:"The AUKUS Advanced Capabilities Industry Forum (ACIF) is the primary industry engagement mechanism. Anduril US DoD relationships are a direct advantage in Pillar II trilateral programmes. Track the AUKUS Procurement Working Group output.",
-    url:"https://www.aukus.gov.au"
-  },
-  {
-    id:"fiveeyes", s:"Five Eyes", label:"Five Eyes Intelligence Alliance", cat:"ally", lon:151.0, lat:-34.0,
-    desc:"SIGINT-sharing alliance: Australia, Canada, New Zealand, United Kingdom, United States. Australia contributes ASD (SIGINT), ASIS (human intelligence), and the Defence Intelligence Organisation. Lattice OS interoperability with Five Eyes systems is a strategic differentiator.",
-    legal:["UKUSA Agreement 1946"],
-    links:["ASD","AUKUS","NZDF","Pine Gap"],
-    bd:"Five Eyes common data standards mean an Australian capability built to these standards is adoptable by all five partners. Frame capability proposals with multi-partner interoperability as a primary value driver.",
-    url:"https://www.asd.gov.au"
-  },
-  {
-    id:"dsr", s:"DSR 2023", label:"Defence Strategic Review 2023", cat:"leg", lon:148.5, lat:-36.1,
-    desc:"Landmark review by Stephen Smith and ACM (Ret.) Angus Houston. Redirected approx $19B toward northern hardening, long-range strike, undersea warfare, and autonomous systems. Declared strategic circumstances deteriorated more rapidly than anticipated.",
-    legal:["National Defence Strategy 2024"],
-    links:["DoD","IIP"],
-    bd:"The DSR identified four priority investment areas aligned to Anduril products: Integrated Air and Missile Defence, Long-Range Strike, Undersea Warfare, and Autonomous Systems. Anchor every pitch to these stated priorities.",
-    url:"https://www.defence.gov.au/about/reviews-inquiries/defence-strategic-review"
-  },
-  {
-    id:"cpr", s:"CPR", label:"Commonwealth Procurement Rules", cat:"leg", lon:147.8, lat:-35.5,
-    desc:"Mandatory rules governing all Commonwealth procurement. Core principles: value for money, open competition, accountability, and ethical behaviour. Defence may apply national security exemptions to bypass open tender requirements for sensitive capabilities.",
-    legal:["PGPA Act 2013"],
-    links:["AusTender","CASG","ASDEFCON"],
-    bd:"Rule 2.6 (national security exemption) and Rule 10.3 (limited tender) are the two mechanisms that can accelerate procurement for novel technologies. Understanding these pathways is essential for proposing accelerated acquisition of autonomous systems.",
-    url:"https://www.finance.gov.au/government/procurement/commonwealth-procurement-rules"
-  },
-  {
-    id:"soci", s:"SOCI Act", label:"Security of Critical Infrastructure Act", cat:"leg", lon:148.0, lat:-36.6,
-    desc:"Regulates security obligations across 11 critical infrastructure sectors: energy, water, transport, communications, defence industry, financial services, food, healthcare, and data storage. Amended 2022 to include positive security obligations and mandatory incident reporting.",
-    legal:["Security of Critical Infrastructure Act 2018 (amended 2022)"],
-    links:["DoD","DISP"],
-    bd:"The SOCI Act bridges the commercial built environment sector and Defence. Major property operators (Mirvac, Dexus, Charter Hall, GPT) are regulated entities with mandatory security obligations and access to Defence-connected tenants. A unique BD channel.",
-    url:"https://www.cisc.gov.au/legislative-information-and-guides/security-of-critical-infrastructure-act-2018"
-  },
-  {
-    id:"darwin", s:"RAAF Darwin", label:"RAAF Base Darwin", cat:"site", lon:130.8, lat:-12.5,
-    desc:"Primary northern Indo-Pacific gateway. 1 Surveillance and Response Group. US Marine Rotational Force Darwin under AUSMIN arrangement. Designated priority hardening target under DSR 2023. Anduril Ghost Bat (MQ-28A) test flights have operated through the Darwin region.",
-    legal:["AU-US Force Posture Agreement 2011"],
-    links:["ADF"],
-    bd:"Darwin is the forward operating environment Anduril capabilities are built for: long-range maritime surveillance, counter-UAS, and autonomous strike in the northern approaches. Presence at Darwin-based exercises (Talisman Sabre, Pitch Black) is a BD opportunity.",
-    url:"https://www.airforce.gov.au/about-us/bases/northern/raaf-base-darwin"
-  },
-  {
-    id:"stirling", s:"HMAS Stirling", label:"HMAS Stirling — Fleet Base West", cat:"site", lon:115.7, lat:-32.2,
-    desc:"Australia largest naval base at Garden Island, WA. Designated future home of AUKUS nuclear-powered submarines. First US and UK submarines to operate here from 2027 (Submarine Rotational Force West). Massive infrastructure investment underway.",
-    legal:["AUKUS Optimal Pathway Agreement 2023"],
-    links:["ADF","AUKUS"],
-    bd:"HMAS Stirling is the single largest infrastructure investment in Australian defence history. Autonomous undersea vehicle support, integrated base sensors, and AI-driven port security are all active procurement areas at this site.",
-    url:"https://www.navy.gov.au/establishments/fleet-base-west"
-  },
-  {
-    id:"pine_gap", s:"Pine Gap", label:"JDF Pine Gap", cat:"intel", lon:133.7, lat:-23.8,
-    desc:"Joint Defence Facility Pine Gap near Alice Springs. Jointly operated with US NRO, CIA, and NSA. Provides ballistic missile early warning, SIGINT collection, and precision targeting data to Five Eyes. Pine Gap data directly supports ADF Indo-Pacific operations.",
-    legal:["JDF Pine Gap Agreement 1966"],
-    links:["ASD","Five Eyes"],
-    bd:"Pine Gap interoperability requirements are embedded in ASD procurement specifications for AI-enabled ISR systems. Lattice OS fusion capabilities compatible with Pine Gap data feeds have a structural acquisition advantage.",
-    url:"https://www.defence.gov.au"
-  },
-  {
-    id:"nzdf", s:"NZDF", label:"New Zealand Defence Force", cat:"ally", lon:174.8, lat:-41.3,
-    desc:"Five Eyes partner, ANZUS signatory, and close ADF ally. Joint exercises: Talisman Sabre, Southern Katipo, Exercise Iti Kahu. NZDF is procuring maritime patrol, counter-UAS, and C2 upgrades aligned to the AUKUS capability edge.",
-    legal:["ANZUS Treaty 1951","Wellington Declaration 2010"],
-    links:["Five Eyes","ADF"],
-    bd:"NZDF procurement is smaller but faster than ADF — useful for initial capability demonstrations and case studies that support the larger ADF pitch. An AUS DISP-cleared company has streamlined access to NZ defence under ANZUS.",
-    url:"https://www.nzdf.mil.nz"
-  }
-];
-
-// ── EDGES ────────────────────────────────────────────────────────────────────
-var EDGES = [
-  ["dod","casg"],["dod","adf"],["dod","asd"],["dod","dstg"],["dod","dsr"],["dod","aukus"],["dod","soci"],
-  ["casg","austender"],["casg","asdefcon"],["casg","disp"],["casg","iip"],
-  ["adf","darwin"],["adf","stirling"],["adf","nzdf"],["adf","aukus"],
-  ["asd","fiveeyes"],["asd","pine_gap"],
-  ["aukus","fiveeyes"],["aukus","stirling"],
-  ["fiveeyes","nzdf"],["dsr","iip"],
-  ["cpr","casg"],["cpr","austender"],["cpr","asdefcon"],
-  ["disp","soci"]
-];
-
-// ── MILITARY BASES ───────────────────────────────────────────────────────────
-var BASES = [
-  {label:"Robertson Barracks",s:"Robertson",lon:131.0,lat:-12.4,svc:"Army"},
-  {label:"HMAS Coonawarra",s:"Coonawarra",lon:130.7,lat:-12.5,svc:"Navy"},
-  {label:"RAAF Amberley",s:"Amberley",lon:152.7,lat:-27.6,svc:"AF"},
-  {label:"Lavarack Barracks",s:"Lavarack",lon:146.8,lat:-19.3,svc:"Army"},
-  {label:"RAAF Townsville",s:"RAAF Tsvl",lon:146.6,lat:-19.2,svc:"AF"},
-  {label:"Gallipoli Barracks",s:"Gallipoli",lon:152.9,lat:-27.4,svc:"Army"},
-  {label:"Holsworthy Barracks",s:"Holsworthy",lon:150.97,lat:-34.0,svc:"Army"},
-  {label:"HMAS Watson",s:"HMAS Watson",lon:151.27,lat:-33.87,svc:"Navy"},
-  {label:"Puckapunyal",s:"Puckapunyal",lon:144.9,lat:-37.1,svc:"Army"},
-  {label:"RAAF Williams",s:"Williams",lon:144.77,lat:-37.87,svc:"AF"},
-  {label:"HMAS Cerberus",s:"Cerberus",lon:145.2,lat:-38.36,svc:"Navy"},
-  {label:"RAAF Edinburgh",s:"Edinburgh",lon:138.55,lat:-34.72,svc:"AF"},
-  {label:"Woomera Test Range",s:"Woomera",lon:136.8,lat:-31.2,svc:"Joint"},
-  {label:"RAAF Pearce",s:"RAAF Pearce",lon:116.0,lat:-31.67,svc:"AF"},
-  {label:"Irwin Barracks",s:"Irwin Bks",lon:116.0,lat:-31.85,svc:"Army"},
-  {label:"RMC Duntroon",s:"Duntroon",lon:149.15,lat:-35.38,svc:"Army"},
-  {label:"HMAS Huon",s:"HMAS Huon",lon:147.3,lat:-43.1,svc:"Navy"}
-];
-
-// ── TENDERS ──────────────────────────────────────────────────────────────────
-var TENDERS = [
-  {id:"T001",cat:"AUTONOMOUS SYSTEMS",title:"Ghost Bat Prototype Integration & Acceptance Test Services",agency:"CASG – Air Domain",value:"$240M",type:"RFT",closes:"2026-05-14",progress:72,urg:false},
-  {id:"T002",cat:"CYBER & EW",title:"Integrated EW Sensor Fusion Platform — AIR 5431 Ph4",agency:"CASG – Air Domain",value:"$380M",type:"EOI",closes:"2026-04-28",progress:88,urg:false},
-  {id:"T003",cat:"UNDERSEA WARFARE",title:"Autonomous Undersea Vehicle Support Services — JP 9102",agency:"CASG – Maritime",value:"$510M",type:"RFI",closes:"2026-06-30",progress:45,urg:false},
-  {id:"T004",cat:"C2 & AI SYSTEMS",title:"LAND 2072 Ph2B — Battlespace Management System",agency:"CASG – Land Domain",value:"$290M",type:"RFT",closes:"2026-04-07",progress:97,urg:true},
-  {id:"T005",cat:"BASE INFRASTRUCTURE",title:"Northern Australia Base Hardening — Design Services",agency:"Defence Infrastructure Division",value:"$85M",type:"EOI",closes:"2026-05-22",progress:60,urg:false},
-  {id:"T006",cat:"CRITICAL INFRASTRUCTURE",title:"SOCI Building Security Assessment — ADF Estate",agency:"CISC / DoD",value:"$32M",type:"RFT",closes:"2026-06-11",progress:40,urg:false},
-  {id:"T007",cat:"SPACE & SURVEILLANCE",title:"AIR 3000 Ph1 — Space Domain Awareness Sensors",agency:"CASG – Space Domain",value:"$165M",type:"EOI",closes:"2026-05-03",progress:81,urg:false},
-  {id:"T008",cat:"COUNTER-UAS",title:"Counter-UAS Point Defence — Northern Approaches",agency:"CASG – Joint Capabilities",value:"$220M",type:"RFT",closes:"2026-04-18",progress:94,urg:true},
-  {id:"T009",cat:"TRAINING & SIM",title:"LAND 125 Ph4 — Dismounted Close Combat Simulation",agency:"CASG – Land Domain",value:"$74M",type:"RFT",closes:"2026-07-15",progress:22,urg:false},
-  {id:"T010",cat:"MARITIME SURVEILLANCE",title:"SEA 129 Ph6 — Offshore Patrol Vessel C2 Systems",agency:"CASG – Maritime",value:"$190M",type:"EOI",closes:"2026-05-30",progress:50,urg:false},
-  {id:"T011",cat:"CYBER SECURITY",title:"ASD Cyber Shield Programme — Industry Partner Panel",agency:"Australian Signals Directorate",value:"$120M",type:"RFI",closes:"2026-06-20",progress:35,urg:false},
-  {id:"T012",cat:"AUTONOMOUS SYSTEMS",title:"Loyal Wingman Fleet Sustainment — 3-Year Panel",agency:"CASG – Air Domain",value:"$445M",type:"RFT",closes:"2026-04-25",progress:91,urg:true}
-];
-
-// ── STATE ────────────────────────────────────────────────────────────────────
-var selectedId = null;
-var activeFilter = "all";
-var activeTab = "entity";
-var selTender = null;
-var byId = {};
-NODES.forEach(function(n){ byId[n.id]=n; n.pos=geo(n.lon,n.lat); });
-BASES.forEach(function(b){ b.pos=geo(b.lon,b.lat); });
-
-// ── MAP BUILD ────────────────────────────────────────────────────────────────
-function svgEl(tag,attrs){
-  var el=document.createElementNS("http://www.w3.org/2000/svg",tag);
-  Object.keys(attrs).forEach(function(k){ el.setAttribute(k,attrs[k]); });
-  return el;
-}
-function svgTxt(text,attrs){
-  var el=svgEl("text",attrs);
-  el.textContent=text; return el;
-}
-
-function buildGrid(){
-  var g=document.getElementById("gg"), gl=document.getElementById("ggl");
-  [115,125,135,145,155,165,175].forEach(function(lon){
-    var p=geo(lon,-20); if(p.x<0||p.x>700) return;
-    g.appendChild(svgEl("line",{x1:p.x,y1:0,x2:p.x,y2:720,stroke:"#030b15","stroke-width":"0.5"}));
-    gl.appendChild(svgTxt(lon+"E",{x:p.x,y:13,fill:"#071520","font-size":"6","text-anchor":"middle","font-family":"Courier New"}));
-  });
-  [-12,-15,-20,-25,-30,-35,-40,-45].forEach(function(lat){
-    var p=geo(130,lat); if(p.y<0||p.y>720) return;
-    g.appendChild(svgEl("line",{x1:0,y1:p.y,x2:700,y2:p.y,stroke:"#030b15","stroke-width":"0.5"}));
-    gl.appendChild(svgTxt(Math.abs(lat)+"S",{x:18,y:p.y+3,fill:"#071520","font-size":"6","font-family":"Courier New"}));
-  });
-}
-
-function buildLand(){
-  var g=document.getElementById("gl");
-  // Australia main landmass (simplified polygon)
-  var aus=svgEl("path",{
-    d:"M 360,28 L 354,108 L 368,158 L 398,188 L 413,228 L 420,294 L 424,316 L 395,398 L 380,450 L 340,476 L 322,452 L 288,466 L 246,402 L 204,348 L 176,340 L 150,344 L 88,374 L 47,392 L 26,382 L 38,344 L 27,296 L 18,236 L 22,182 L 72,162 L 112,130 L 180,98 L 200,48 L 260,44 L 258,122 L 266,130 L 292,64 L 320,50 Z",
-    fill:"rgba(0,32,60,0.38)",stroke:"#0a3050","stroke-width":"1.5"});
-  // Tasmania
-  var tas=svgEl("path",{
-    d:"M 364,490 L 375,528 L 360,548 L 350,546 L 342,542 L 340,514 L 344,500 Z",
-    fill:"rgba(0,30,56,0.36)",stroke:"#072840","stroke-width":"1.2"});
-  // NZ North Island
-  var ni=svgEl("path",{
-    d:"M 610,370 L 668,418 L 626,472 L 618,422 Z",
-    fill:"rgba(0,22,46,0.3)",stroke:"#061e38","stroke-width":"1"});
-  // NZ South Island
-  var si=svgEl("path",{
-    d:"M 626,472 L 606,474 L 584,506 L 560,552 L 594,524 L 608,508 Z",
-    fill:"rgba(0,22,46,0.28)",stroke:"#061e38","stroke-width":"1"});
-  [aus,tas,ni,si].forEach(function(el){ g.appendChild(el); });
-
-  // Continent labels
-  [["AUSTRALIA",220,300,22],["N.Z.",600,430,9]].forEach(function(arr){
-    var t=svgTxt(arr[0],{x:arr[1],y:arr[2],fill:"#040e1e","font-size":arr[3],"font-weight":"700","font-family":"Courier New",opacity:"0.45"});
-    g.appendChild(t);
-  });
-  // State labels
-  [["QLD",330,195,8],["NSW",320,320,8],["VIC",285,415,8],["SA",185,285,8],
-   ["WA",95,245,8],["NT",170,155,8],["TAS",350,510,7],["ACT",344,335,6]].forEach(function(arr){
-    var t=svgTxt(arr[0],{x:arr[1],y:arr[2],fill:"#06162a","font-size":arr[3],"font-family":"Courier New",opacity:"0.6"});
-    g.appendChild(t);
-  });
-}
-
-// ── RENDER ───────────────────────────────────────────────────────────────────
-function getVisible(){
-  if(activeFilter==="all") return NODES;
-  return NODES.filter(function(n){ return n.cat===activeFilter; });
-}
-function getConns(id){
-  var s={}; s[id]=true;
-  EDGES.forEach(function(e){
-    if(e[0]===id) s[e[1]]=true;
-    if(e[1]===id) s[e[0]]=true;
-  });
-  return s;
-}
-
-function render(){
-  var vis=getVisible();
-  var visSet={};
-  vis.forEach(function(n){ visSet[n.id]=true; });
-  var visEdges=EDGES.filter(function(e){ return visSet[e[0]]&&visSet[e[1]]; });
-  var conn=selectedId?getConns(selectedId):{};
-  var selNode=selectedId?byId[selectedId]:null;
-  var selColor=selNode?CATS[selNode.cat].color:"#00bfff";
-
-  // EDGES with curved bezier paths
-  var eg=document.getElementById("ge"); eg.innerHTML="";
-  visEdges.forEach(function(e){
-    var na=byId[e[0]], nb=byId[e[1]]; if(!na||!nb) return;
-    var hot=selectedId&&(e[0]===selectedId||e[1]===selectedId);
-    var mx=(na.pos.x+nb.pos.x)/2, my=(na.pos.y+nb.pos.y)/2-20;
-    var path=svgEl("path",{
-      d:"M"+na.pos.x+","+na.pos.y+" Q"+mx+","+my+" "+nb.pos.x+","+nb.pos.y,
-      fill:"none",
-      stroke:hot?selColor:"#05121e",
-      "stroke-width":hot?"1.8":"0.8",
-      "stroke-dasharray":hot?"10,4":"4,8",
-      opacity:hot?"0.9":"0.45"
-    });
-    if(hot) path.classList.add("marching");
-    eg.appendChild(path);
-    // Junction dots at each endpoint
-    if(hot){
-      [na.pos,nb.pos].forEach(function(p){
-        eg.appendChild(svgEl("circle",{cx:p.x,cy:p.y,r:"2",fill:selColor,opacity:"0.6"}));
-      });
-    }
-  });
-
-  // BASES
-  var bg=document.getElementById("gb"); bg.innerHTML="";
-  var svcColors={Army:"#00e87a",Navy:"#00bfff",AF:"#e84057",Joint:"#ffb300"};
-  BASES.forEach(function(b){
-    var c=svcColors[b.svc]||"#3a7090";
-    var p=b.pos;
-    // Triangle marker
-    var tri=svgEl("polygon",{
-      points:(p.x)+","+(p.y-4)+" "+(p.x-3)+","+(p.y+2.5)+" "+(p.x+3)+","+(p.y+2.5),
-      fill:"transparent",stroke:c,"stroke-width":"0.7",opacity:"0.5"
-    });
-    var lbl=svgTxt(b.s,{x:p.x+5,y:p.y+2,fill:c,"font-size":"6","font-family":"Courier New",opacity:"0.4"});
-    bg.appendChild(tri); bg.appendChild(lbl);
-  });
-
-  // NODES
-  var ng=document.getElementById("gn"); ng.innerHTML="";
-  vis.forEach(function(node){
-    var p=node.pos; var c=CATS[node.cat];
-    var isSel=selectedId===node.id;
-    var isConn=conn[node.id]&&!isSel;
-    var dim=selectedId&&!isSel&&!isConn;
-
-    var gp=svgEl("g",{transform:"translate("+p.x+","+p.y+")",opacity:dim?"0.12":"1"});
-    gp.style.cursor="pointer";
-
-    if(isSel){
-      gp.appendChild(svgEl("circle",{r:"18",fill:c.color,opacity:"0.07"}));
-      gp.appendChild(svgEl("circle",{r:"12",fill:"none",stroke:c.color,"stroke-width":"0.5","stroke-dasharray":"3,3",opacity:"0.35"}));
-    }
-    if(isConn){
-      gp.appendChild(svgEl("circle",{r:"10",fill:c.color,opacity:"0.05"}));
-    }
-
-    // Diamond
-    var r=isSel?7:5;
-    var pts="0,"+-r+" "+r+",0 0,"+r+" "+-r+",0";
-    gp.appendChild(svgEl("polygon",{
-      points:pts,
-      fill:isSel?c.color:"#020a14",
-      stroke:c.color,
-      "stroke-width":isSel?"2":"1.2"
-    }));
-
-    var lbl=svgTxt(node.s,{x:"8",y:"-4",fill:c.color,"font-size":isSel?"9.5":"8.5","font-weight":isSel?"700":"400","font-family":"Courier New",opacity:(isConn||isSel)?"1":"0.65"});
-    gp.appendChild(lbl);
-
-    (function(id){
-      gp.addEventListener("click",function(){
-        selectedId=(selectedId===id)?null:id;
-        activeTab="entity";
-        render(); renderSidebar();
-      });
-    })(node.id);
-
-    ng.appendChild(gp);
-  });
-
-  renderFilters();
-  updateStats();
-}
-
-function updateStats(){
-  var open=TENDERS.length;
-  var urg=TENDERS.filter(function(t){return t.urg;}).length;
-  var total=TENDERS.reduce(function(s,t){return s+parseFloat(t.value.replace(/[$M]/g,""))/1000;},0);
-  document.getElementById("st-open").textContent=open;
-  document.getElementById("st-urg").textContent=urg;
-  document.getElementById("st-val").textContent=total.toFixed(1);
-}
-
-function renderFilters(){
-  var fb=document.getElementById("fbar"); fb.innerHTML="";
-  var all=document.createElement("button");
-  all.className="flt"; all.textContent="ALL ENTITIES";
-  all.style.color=activeFilter==="all"?"#000":"#4a8aaa";
-  all.style.background=activeFilter==="all"?"#5a9ab8":"transparent";
-  all.style.borderColor=activeFilter==="all"?"#5a9ab8":"#0a2a40";
-  all.onclick=function(){ activeFilter="all"; render(); };
-  fb.appendChild(all);
-  Object.keys(CATS).forEach(function(key){
-    var cat=CATS[key];
-    var btn=document.createElement("button");
-    btn.className="flt"; btn.textContent=cat.label.split(" ")[0].toUpperCase();
-    btn.style.color=activeFilter===key?"#000":cat.color;
-    btn.style.background=activeFilter===key?cat.color:"transparent";
-    btn.style.borderColor=activeFilter===key?cat.color:cat.color+"25";
-    btn.onclick=(function(k){ return function(){ activeFilter=(activeFilter===k)?"all":k; render(); }; })(key);
-    fb.appendChild(btn);
-  });
-}
-
-// ── TENDERS ──────────────────────────────────────────────────────────────────
-function renderTenders(){
-  var feed=document.getElementById("tfeed"); feed.innerHTML="";
-  TENDERS.forEach(function(t){
-    var card=document.createElement("div");
-    card.className="tc"+(selTender===t.id?" sel":"");
-    var now=new Date(); var closes=new Date(t.closes);
-    var days=Math.round((closes-now)/86400000);
-    var catColor=t.cat.indexOf("AUTO")>=0||t.cat.indexOf("LOYAL")>=0?"#00e87a":
-                 t.cat.indexOf("CYBER")>=0||t.cat.indexOf("C2")>=0?"#b388ff":
-                 t.cat.indexOf("UNDER")>=0||t.cat.indexOf("MARITIME")>=0?"#00bfff":
-                 t.cat.indexOf("INFRA")>=0||t.cat.indexOf("CRIT")>=0?"#ffb300":
-                 t.cat.indexOf("COUNTER")>=0?"#e84057":"#7aacbc";
-    var barColor=t.urg?"#e84057":"#00bfff";
-    card.innerHTML=
-      "<div class='tc-cat' style='color:"+catColor+"'>"+t.cat+"</div>"+
-      "<div class='tc-title'>"+t.title+"</div>"+
-      "<div class='tc-r'><span class='tc-k'>ID</span><span class='tc-v'>"+t.id+"</span></div>"+
-      "<div class='tc-r'><span class='tc-k'>AGENCY</span><span class='tc-v' style='font-size:6.5px'>"+t.agency+"</span></div>"+
-      "<div class='tc-r'><span class='tc-k'>TYPE</span><span class='tc-v'>"+t.type+"</span></div>"+
-      "<div class='tc-r'><span class='tc-k'>VALUE</span><span class='tc-v'>"+t.value+"</span></div>"+
-      "<div class='tc-r'><span class='tc-k'>CLOSES</span><span class='tc-v"+(t.urg?" urg":"")+"'>"+t.closes+(days<30?" ("+days+"d)":"")+"</span></div>"+
-      "<div class='tc-bar-bg'><div class='tc-bar-fill' style='width:"+t.progress+"%;background:"+barColor+"'></div></div>"+
-      "<div class='tc-acts'>"+
-        "<button class='tc-btn' onclick=\"window.open('https://www.tenders.gov.au','_blank')\">VIEW ATM</button>"+
-        "<button class='tc-btn'>+ TRACK</button>"+
-      "</div>"+
-      "<div class='tc-disc'>Illustrative — verify on AusTender</div>";
-    card.addEventListener("click",function(){ selTender=t.id; renderTenders(); });
-    feed.appendChild(card);
-  });
-}
-
-// ── SIDEBAR ──────────────────────────────────────────────────────────────────
-function switchTab(tab){
-  activeTab=tab;
-  ["entity","legal","bd","guide"].forEach(function(t){
-    var el=document.getElementById("tab-"+t);
-    el.className="rptab"+(t===tab?" on":"");
-  });
-  renderSidebar();
-}
-
-function renderSidebar(){
-  var body=document.getElementById("rp-body");
-  var node=selectedId?byId[selectedId]:null;
-  if(!node){ renderGuide(); return; }
-  var cat=CATS[node.cat];
-
-  if(activeTab==="entity"){
-    var tagsHtml=node.links.map(function(l){ return "<span class='tag'>"+l+"</span>"; }).join("");
-    body.innerHTML=
-      "<div class='rp-ey' style='color:"+cat.color+"'>"+cat.label.toUpperCase()+"</div>"+
-      "<div class='rp-name'>"+node.label+"</div>"+
-      "<div class='rp-desc'>"+node.desc+"</div>"+
-      "<div class='rp-slabel' style='color:#ffb300'>CONNECTED NODES</div>"+
-      "<div class='tags' style='margin-bottom:16px'>"+tagsHtml+"</div>"+
-      "<a href='"+node.url+"' target='_blank' class='rp-link'>"+
-        "<span style='color:var(--blue)'>&#8599;</span> "+node.url+
-      "</a>"+
-      "<button class='desel' onclick='deselectAll()'>DESELECT NODE</button>";
-
-  } else if(activeTab==="legal"){
-    var legHtml=node.legal.map(function(l){
-      return "<div class='leg-item'><span class='leg-arr'>&#9658;</span><span>"+l+"</span></div>";
-    }).join("");
-    var procNote=
-      node.cat==="proc"?"This entity sits within the formal Commonwealth procurement framework. All engagements must comply with the CPR and relevant ASDEFCON templates.":
-      node.cat==="leg"?"This instrument shapes procurement scope, prioritisation, and approval thresholds. Alignment to stated policy priorities is a prerequisite for serious consideration.":
-      node.cat==="dept"?"Departmental entities exercise policy discretion and capability prioritisation. Relationship investment at senior levels shapes which requirements reach formal market activity.":
-      node.cat==="intel"?"Intelligence-adjacent procurement typically operates under restricted tender provisions. DISP clearance and NV1+ personal clearance are required.":
-      node.cat==="ally"?"Alliance frameworks create multilateral procurement pathways. Capabilities endorsed under AUKUS or Five Eyes benefit from streamlined inter-government transfer mechanisms.":
-      "Strategic facilities generate localised procurement activity. On-base engagement requires DISP membership and facility access clearance.";
-    body.innerHTML=
-      "<div class='rp-ey' style='color:#ffb300'>LEGAL FRAMEWORK</div>"+
-      "<div class='rp-name'>"+node.label+"</div>"+
-      "<div style='margin-bottom:16px'>"+legHtml+"</div>"+
-      "<div class='rp-slabel' style='color:#ffb300'>PROCUREMENT RELEVANCE</div>"+
-      "<div class='rp-desc'>"+procNote+"</div>"+
-      "<button class='desel' onclick='deselectAll()'>DESELECT NODE</button>";
-
-  } else if(activeTab==="bd"){
-    var prods=node.cat==="intel"||node.id==="asd"||node.id==="fiveeyes"?["Lattice OS","Ghost Bat","Pulsar EW","IVAS"]:
-              node.cat==="site"||node.id==="darwin"||node.id==="stirling"?["Sentry Tower","CUAS","Dive-LD","Lattice OS"]:
-              node.cat==="proc"||node.id==="casg"||node.id==="iip"?["All Products","Lattice OS","Ghost Shark","Roadrunner"]:
-              ["Lattice OS","Ghost Bat","Ghost Shark","Roadrunner","Pulsar"];
-    var prodsHtml=prods.map(function(p){ return "<span class='tag' style='border-color:rgba(0,191,255,0.2);color:#1a5a7a'>"+p+"</span>"; }).join("");
-    body.innerHTML=
-      "<div class='rp-ey' style='color:var(--blue)'>BD INTELLIGENCE</div>"+
-      "<div class='rp-name'>"+node.label+"</div>"+
-      "<div class='bda'><div class='bda-h'>STRATEGIC APPROACH</div><div class='bda-t'>"+node.bd+"</div></div>"+
-      "<div class='rp-slabel' style='color:var(--blue)'>RELEVANT ANDURIL PRODUCTS</div>"+
-      "<div class='tags' style='margin-bottom:16px'>"+prodsHtml+"</div>"+
-      "<div class='bda' style='border-color:rgba(0,232,122,0.1);background:rgba(0,232,122,0.03)'>"+
-        "<div class='bda-h' style='color:var(--green)'>SOCI / BUILT ENVIRONMENT CHANNEL</div>"+
-        "<div class='bda-t'>Critical infrastructure operators regulated under the SOCI Act 2018 (Mirvac, Dexus, GPT, Charter Hall) hold meaningful proximity to Defence. Their senior leaders have direct board-level relationships, Defence-connected tenants, and a vested interest in sovereign infrastructure defence. This is an access channel competitors do not have.</div>"+
-      "</div>"+
-      "<button class='desel' onclick='deselectAll()'>DESELECT NODE</button>";
-
-  } else {
-    renderGuide();
-  }
-}
-
-function renderGuide(){
-  var body=document.getElementById("rp-body");
-  var catHtml=Object.keys(CATS).map(function(k){
-    var cat=CATS[k];
-    return "<div class='cat-entry' onclick=\"setCat('"+k+"')\">"+
-      "<div class='cat-dot' style='background:"+cat.color+"'></div>"+
-      "<span class='cat-nm' style='color:"+cat.color+"88'>"+cat.label+"</span></div>";
-  }).join("");
-  var procRows=["Policy mandate (DSR/NDS/IIP)","Requirement defined (ADF/Service)","Market activity released (CASG)","Rules compliance (CPR)","Contract template (ASDEFCON)","Security clearance (DISP)","Public notice (AusTender)"];
-  var procHtml=procRows.map(function(s,i){
-    return "<div class='gblock-r'><span class='gblock-n'>"+(i+1)+".</span>"+s+"</div>";
-  }).join("");
-  body.innerHTML=
-    "<div class='gblock'>"+
-      "<div class='gblock-h' style='color:var(--green)'>NODE CATEGORIES</div>"+
-      "<div style='margin-bottom:4px'>"+catHtml+"</div>"+
-      "<div class='cat-entry' style='padding-top:6px;border-top:1px solid #04090e'>"+
-        "<div class='cat-dot' style='background:#00e87a;border-radius:0;clip-path:polygon(50% 0%,100% 100%,0% 100%)'></div>"+
-        "<span class='cat-nm'>Military Bases (all states)</span></div>"+
-    "</div>"+
-    "<div class='gblock'>"+
-      "<div class='gblock-h' style='color:var(--blue)'>PROCUREMENT PATHWAY</div>"+
-      procHtml+
-    "</div>"+
-    "<div class='gblock'>"+
-      "<div class='gblock-h' style='color:var(--red)'>AUKUS PILLAR II ENTRY</div>"+
-      "<div class='gblock-t'>The AUKUS Advanced Capabilities Industry Forum (ACIF) is the primary industry mechanism. Eight capability tracks — AI/autonomy, quantum, hypersonics, EW, cyber, undersea, space, and long-range strike. Anduril US DoD relationships are a structural advantage across all eight.</div>"+
-    "</div>"+
-    "<div class='gblock'>"+
-      "<div class='gblock-h' style='color:var(--gold)'>BUILT ENVIRONMENT BRIDGE</div>"+
-      "<div class='gblock-t'>The SOCI Act 2018 (amended 2022) creates a legal bridge between the commercial built environment sector and sovereign defence obligations. Major property operators are regulated entities with mandatory security obligations and direct proximity to Defence infrastructure.</div>"+
-    "</div>"+
-    "<div class='gblock'>"+
-      "<div class='gblock-h' style='color:var(--purple)'>CLEARANCE ROADMAP</div>"+
-      "<div class='gblock-t'>DISP Associate to NV1 personal clearance to DISP Member to NV2 to DISP Top Secret to TSPV. Begin DISP application first. Processing times: DISP 6-18 months, NV1 3-6 months, NV2 12-24 months.</div>"+
-    "</div>";
-}
-
-function deselectAll(){ selectedId=null; render(); renderSidebar(); }
-function setCat(k){ activeFilter=k; render(); }
-
-// ── INIT ─────────────────────────────────────────────────────────────────────
-buildGrid();
-buildLand();
-renderTenders();
-render();
-renderSidebar();
+var products={ghost_shark:{name:"Ghost Shark XL-AUV",subtitle:"EXTRA-LARGE AUTONOMOUS UNDERWATER VEHICLE",status:"contracted",statusLabel:"CONTRACTED — A$1.7B | IN SERVICE 2026",domain:"Maritime / Undersea",maturity:"Full Rate Production — fast-tracked",auFootprint:"RAN — ASCA Mission 0",iipBudget:"$5.2–7.2B Undersea Warfare chapter",description:"Ghost Shark is Anduril's most significant Australia program and the ADF's first operational XL-AUV. Flooded-hull design, modular multi-mission payload bays, and Lattice-native autonomy for ISR, mine countermeasures, anti-submarine precursor, and strike-enabling missions. Manufactured in Australia with 40+ companies in the supply chain. Prototypes delivered ahead of schedule — program fast-tracked from SDD directly to full rate production. Fleet of 'dozens' confirmed September 2025. In service from early 2026.",specs:[{label:"Vehicle Class",value:"Extra-Large AUV"},{label:"Hull Design",value:"Flooded — no pressure hull"},{label:"Program Value",value:"A$1.7 billion"},{label:"Fleet Size",value:"Dozens (Sep 2025)"},{label:"AU Manufacturing",value:"Yes — $60M facility"},{label:"IOC",value:"Early 2026"}],iip:[{primary:true,chapter:"Ch 2 — Undersea Warfare",name:"XL-AUV Acquisition & Fleet Expansion",budget:"$5.2–7.2B allocated",fit:"primary",fitLabel:"PRIMARY — CONTRACTED",desc:"Ghost Shark IS this IIP line. Phase 1 A$1.7B contracted. Phase 2 fleet expansion, payload suite augmentation, and AUKUS partner sustainment are live BD opportunities."},{primary:false,chapter:"Ch 2 — Undersea Warfare",name:"Collins Class Interoperability",budget:"$4–5B Collins upgrade",fit:"secondary",fitLabel:"SECONDARY FIT",desc:"Ghost Shark designed to operate alongside crewed submarines. Collins upgrade conversations include shared undersea ISR picture and collaborative mission planning."},{primary:false,chapter:"Ch 5 — Targeting & Strike",name:"Sub-Launched Strike Enabling",budget:"$1B+ strike line",fit:"tertiary",fitLabel:"POTENTIAL",desc:"Ghost Shark's modular payload architecture supports strike-enabling roles — not publicly confirmed for Australia but architecture permits it."}],bd:["Ghost Shark delivered ahead of schedule — lead every new conversation with this. The ADF chose Anduril once based on promises; now it can choose based on proof.","Phase 2 fleet expansion is the live revenue opportunity. ASCA Mission 0 relationship provides direct access to the decision-makers who fund Mission 1.","40+ Australian supply chain companies create a political constituency. Brief them, involve them, and they become advocates inside CASG and the parliament.","AUKUS Pillar II positioning: Ghost Shark manufacturing infrastructure makes Australia a credible XL-AUV production hub for the UK and US fleets.","SOCI angle: offshore platform and port ISR is a civilian Ghost Shark use case that bypasses DISP procurement requirements entirely."],tender:{ref:"DoD-AUS-GS-SDD-2022 (Active) | Phase 2 Expansion — Future ATM",type:"Prime Contract (Phase 1 Active) | Phase 2 TBA",category:"Extra-Large Autonomous Underwater Vehicle — Fleet Expansion",value:"A$1.7B Phase 1 CONTRACTED | A$2–4B estimated Phase 2+",exec:"Phase 1 is contracted and delivering. This section focuses on the Phase 2 expansion opportunity: scaling the fleet to operational squadron strength, expanding the mission payload suite, and establishing a sovereign maintenance and upgrade pipeline.",requirement:"Phase 2 requirement: expand the Ghost Shark fleet to operational squadron strength, integrate additional payload modules for extended mission profiles, and establish a sovereign MRO capability capable of supporting RAN and AUKUS partner AUV operations beyond 2030.",solution:"Anduril proposes a Phase 2 program in three tranches: (1) fleet expansion to squadron strength, (2) Lattice autonomy software upgrades, and (3) establishment of an Australian MRO facility co-located with the Phase 1 manufacturing site.",props:["Proven delivery: prototype phase completed 12 months ahead of schedule.","40+ Australian supply chain companies — sovereign industrial base established.","AUKUS interoperability: Ghost Shark's modular architecture supports allied AUV fleet interoperability."],commercial:"ASDEFCON (Complex Materiel) for fleet expansion tranche. CPIF for payload integration R&D. Five-year sustainment IDIQ.",compliance:["DISP active — Anduril Australia Pty Ltd","ITAR controls managed under DASA instruments","ASCA co-funding arrangement active — Mission 0"]},kanban:{identify:[{title:"Phase 2 fleet size & payload scope definition",owner:"BD + Eng",priority:"high",note:"Define squadron strength requirement with ASCA team",due:"Month 1–2"}],qualify:[{title:"ASCA leadership quarterly program review",owner:"BD Director",priority:"high",note:"Maintain Mission 0 relationship — explore Mission 1 pipeline",due:"Monthly"}],shape:[{title:"Mission payload Phase 2 requirements workshop",owner:"BD + RAN + Eng",priority:"high",note:"Define advanced ISR and strike-enabling payload options",due:"Month 4–8"},{title:"AUKUS AUV interoperability study proposal",owner:"BD + Policy",priority:"med",note:"Position Anduril AU facility as AUKUS MRO hub",due:"Month 6–10"}],bid:[{title:"Phase 2 ATM response preparation",owner:"BD + Proposals",priority:"med",note:"Track ATM release timeline via CASG relationships",due:"TBA — est Month 10+"}],award:[{title:"Phase 1 — A$1.7B CONTRACTED",owner:"Active delivery",priority:"high",note:"In-service from early 2026. Deliver and retain.",due:"Sep 2025",outcome:"won"}]},timeline:{totalWeeks:28,targetWeek:22,submissionLabel:"Phase 2 ATM Target",phases:[{name:"Phase 1 Delivery",start:0,end:8,color:"#27a863",note:"Active"},{name:"P2 Intelligence",start:2,end:6,color:"#2b78d4"},{name:"P2 Scope / Shape",start:4,end:14,color:"#d4840a"},{name:"P2 Commercial",start:10,end:18,color:"#c8aa3a"},{name:"Draft ATM Response",start:16,end:22,color:"#c8372d"},{name:"Submit / Negotiate",start:20,end:26,color:"#9a5ad4"}],milestones:[{week:4,label:"ASCA quarterly review"},{week:10,label:"Payload requirements workshop"},{week:16,label:"ATM release est."},{week:22,label:"Submit ahead of schedule"}]}},lattice:{name:"Lattice OS",subtitle:"AI-POWERED COMMAND & CONTROL PLATFORM",status:"active",statusLabel:"ACTIVE / EMBEDDED — GHOST SHARK & US DoD",domain:"Software / C4ISR",maturity:"Production — US DoD, USSF, SOCOM, RAN",auFootprint:"Ghost Shark program, ASCA",iipBudget:"Cross-cutting — all IIP chapters",description:"Lattice is Anduril's AI-powered operating system — the connective tissue of the entire product ecosystem. It fuses data from thousands of heterogeneous sensors into a real-time 3D operating picture, autonomously classifies and tracks objects of interest, and closes kill chains or hands off decisions to human commanders. Exposed via open SDK with REST and gRPC APIs so Australian defence software developers can build sovereign applications on top of it.",specs:[{label:"Architecture",value:"Open SDK / Microservices"},{label:"APIs",value:"REST & gRPC"},{label:"Domains",value:"Air / Land / Sea / Space / Cyber"},{label:"AI Core",value:"Sensor Fusion + ML"},{label:"Users",value:"DoD, USSF, SOCOM, RAN"},{label:"AU Status",value:"Ghost Shark C2 layer"}],iip:[{primary:true,chapter:"Ch 2 — Undersea Warfare",name:"Undersea C2 & Decision Architecture",budget:"$5.2–7.2B",fit:"primary",fitLabel:"PRIMARY — EMBEDDED",desc:"Lattice is the command brain of Ghost Shark. Any AUV fleet expansion requires C2 infrastructure that Lattice already provides."},{primary:false,chapter:"Ch 4 — Airpower / ACP",name:"Autonomous Collaborative Platforms C2",budget:"Air 6015 + CCA roadmap",fit:"secondary",fitLabel:"SECONDARY FIT",desc:"Lattice is the mission autonomy layer for any CCA or UAS system."},{primary:false,chapter:"Ch 5 — Targeting",name:"Defence Targeting Enterprise",budget:"$1B+ targeting",fit:"secondary",fitLabel:"SECONDARY FIT",desc:"Lattice accelerates sensor-to-shooter kill chains."},{primary:false,chapter:"Ch 6 — Space & Cyber",name:"Integrated C2 / Battle Management",budget:"EW & ISR lines",fit:"tertiary",fitLabel:"POTENTIAL",desc:"RAAF and Joint Operations Command battle management modernisation."}],bd:["Ghost Shark is the Lattice door — every RAN AUV conversation is also a C2 architecture conversation. Don't separate the two.","ASCA as platform: push to establish Lattice as ASCA's preferred autonomy layer for Missions 1 through N.","JOC battle management modernisation is underexplored. Lattice as shared allied C2 layer is the pitch.","Lattice SDK availability to Australian companies aligns with the sovereign industrial capability priority.","AUKUS Pillar II AI/autonomy workstream: Lattice as shared allied C2 standard is a board-level story."],tender:{ref:"Illustrative: CASG-C4ISR-ATM-2025-047",type:"ATM Response → RFT",category:"AI-Enabled Battle Management & Multi-Domain Autonomous Coordination",value:"A$200–600M over 5 years (base + options)",exec:"Anduril proposes Lattice OS as the ADF's common autonomy and command-and-control platform, delivering a real-time multi-domain operating picture across all five warfighting domains.",requirement:"The ADF requires a battle management and C2 capability that can fuse heterogeneous sensor data across multiple domains and support autonomous coordination of crewed and uncrewed platforms.",solution:"Lattice OS provides sensor fusion, ML-enabled classification, autonomous kill chain management, and human-machine interface across all five domains.",props:["Operationally proven: deployed with US DoD, SOCOM, and US Space Force.","Open architecture: third-party sensors and platforms integrate via published SDK.","Sovereign pathway: Lattice SDK enables Australian developers to build ADF-specific applications."],commercial:"IDIQ arrangement with task order structure. ASDEFCON (Services) compliant.",compliance:["DISP active — Anduril Australia Pty Ltd","ASDEFCON (Services) pricing structure compliant","ITAR/EAR managed under existing DASA instruments"]},kanban:{identify:[{title:"Map JOC battle management modernisation budget",owner:"BD",priority:"high",note:"Identify program office and funding line at CASG",due:"Month 1–3"}],qualify:[{title:"DST Group AI/autonomy program engagement",owner:"BD + Technical",priority:"high",note:"Establish technical credibility with DST Group researchers",due:"Month 2–5"},{title:"ASCA Mission 1 pipeline briefing",owner:"BD Director",priority:"high",note:"Position Lattice as preferred platform for future ASCA missions",due:"Month 3"}],shape:[{title:"Open SDK pilot with Australian SME developers",owner:"BD + Eng",priority:"med",note:"Demonstrate sovereign application development on Lattice",due:"Month 4–8"},{title:"JOC C2 architecture concept paper",owner:"BD + Tech",priority:"high",note:"Draft Lattice-as-shared-C2-layer briefing for JOC",due:"Month 5–9"}],bid:[{title:"C4ISR ATM response preparation",owner:"BD + Proposals",priority:"high",note:"Track CASG ATM release — respond within 15 days of release",due:"Month 8–14"}],award:[{title:"Ghost Shark C2 — EMBEDDED",owner:"Active delivery",priority:"high",note:"Lattice is live in Ghost Shark program. Protect and expand.",due:"Ongoing",outcome:"won"}]},timeline:{totalWeeks:28,targetWeek:20,submissionLabel:"C4ISR ATM Submission Target",phases:[{name:"Intelligence / Mapping",start:0,end:5,color:"#2b78d4"},{name:"Stakeholder Engagement",start:3,end:10,color:"#0e9ea6"},{name:"Solution Shaping",start:7,end:16,color:"#d4840a"},{name:"Commercial Development",start:12,end:18,color:"#c8aa3a"},{name:"Draft ATM Response",start:16,end:20,color:"#c8372d"},{name:"Final Submission",start:19,end:22,color:"#9a5ad4"}],milestones:[{week:3,label:"DST Group meeting"},{week:8,label:"ASCA workshop"},{week:14,label:"ATM release est."},{week:20,label:"Submit — ahead of schedule"}]}},sentry:{name:"Sentry Tower",subtitle:"AUTONOMOUS SOLAR-POWERED SURVEILLANCE PLATFORM",status:"active",statusLabel:"ACTIVE — US CBP & DoD | SOCI PATHWAY OPEN",domain:"ISR / Persistent Surveillance",maturity:"Production — thousands deployed by US CBP & DoD",auFootprint:"No formal ADF contract — SOCI channel open",iipBudget:"Base hardening / ISR / SOCI critical infrastructure",description:"Sentry Tower is a 33-foot solar-powered autonomous surveillance platform combining camera, radar, and thermal imaging, feeding data directly into Lattice. Disassembles to fit in a pickup truck, reassembles in under 2 hours. Originally deployed for US border surveillance, now a DoD base protection mainstay.",specs:[{label:"Height",value:"33 feet (10 metres)"},{label:"Power",value:"Solar — off-grid capable"},{label:"Sensors",value:"Camera + Radar + Thermal"},{label:"Setup Time",value:"Under 2 hours"},{label:"Transport",value:"Standard pickup truck"},{label:"Autonomy",value:"Detect / track / classify / alert"}],iip:[{primary:true,chapter:"Ch 3 — Land / Base Infrastructure",name:"Northern Base Hardening & Surveillance",budget:"Force Posture / base protection",fit:"primary",fitLabel:"PRIMARY FIT",desc:"Enhanced northern bases need persistent perimeter surveillance. Sentry Tower is the lowest-friction, fastest-to-deploy, combat-proven option."},{primary:false,chapter:"SOCI Act 2018",name:"Critical Infrastructure Security — SOCI",budget:"Asset owner compliance budgets",fit:"primary",fitLabel:"SOCI CHANNEL — STRONG",desc:"SOCI Act entities have legal obligations to manage physical security risks. Sentry Tower satisfies these at a fraction of equivalent crewed solutions."},{primary:false,chapter:"Ch 6 — Space & Cyber",name:"ISR Node in Lattice Sensor Network",budget:"ISR modernisation",fit:"secondary",fitLabel:"SECONDARY FIT",desc:"Sentry nodes at ADF facilities feed into Lattice's common operating picture."}],bd:["The SOCI angle is uniquely yours, Michael. You have existing C-suite relationships inside Dexus, Mirvac, Charter Hall, and GPT — SOCI entities with statutory security obligations.","The pitch to a SOCI entity is not 'buy defence technology' — it is 'meet your legal obligations under the SOCI Act with a system that requires no operator once deployed'.","Northern base hardening: Force Posture Agreement political pressure to harden northern facilities. Sentry Tower is the fastest compliant answer.","Pair Sentry with Pulsar and Lattice: common operating picture + detection + defeat. The combined pitch is a turnkey base protection kit.","SOCI procurement does not require DISP clearance at the same level as military procurement — lower friction, faster conversion."],tender:{ref:"Dual-track: CASG-ISR-ATM-2025-019 / SOCI-Security Direct",type:"ADF ATM + SOCI Asset Owner Direct Procurement",category:"Autonomous Persistent Surveillance — Base Hardening & Critical Infrastructure",value:"A$50–150M ADF | A$20–80M SOCI direct (per tranche)",exec:"Anduril proposes Sentry Tower for two parallel procurement pathways: ADF deployment at enhanced northern bases and direct procurement by SOCI-regulated critical infrastructure entities.",requirement:"Persistent autonomous surveillance at enhanced northern bases and SOCI compliance for critical infrastructure entities.",solution:"Sentry Tower provides 360-degree persistent surveillance integrating camera, radar, and thermal imaging, feeding a real-time Lattice-enabled common operating picture.",props:["No operator required: autonomous detection and alert cycle.","Dual budget stream: ADF base hardening and SOCI critical infrastructure protection are separate budgets.","Lattice integration extends ADF picture at no military cost."],commercial:"ADF pathway: ASDEFCON (Complex Materiel). SOCI pathway: Direct Commercial Sale — no DISP requirement at unclassified level.",compliance:["DISP active for military deployments","SOCI Act compliance pathway established","ASD ISM compliant at PROTECTED level"]},kanban:{identify:[{title:"SOCI entity security obligation mapping — top 10 targets",owner:"BD (Michael)",priority:"high",note:"Dexus, Mirvac, Charter Hall, GPT, Port of Darwin, Santos LNG",due:"Month 1"},{title:"CASG base hardening program office identification",owner:"BD",priority:"high",note:"Map funding line within northern base hardening program",due:"Month 1–2"}],qualify:[{title:"CASG base hardening program office meeting",owner:"BD",priority:"high",note:"Establish Sentry Tower as ADF base surveillance option",due:"Month 2–3"},{title:"SOCI entity security director introductions",owner:"BD (Michael — direct network)",priority:"high",note:"Dexus/Mirvac/Charter Hall — existing C-suite relationships",due:"Month 2–3"}],shape:[{title:"SOCI compliance briefing + Sentry demonstration",owner:"BD + Technical",priority:"high",note:"Show how Sentry satisfies SOCI risk management obligations",due:"Month 3–5"},{title:"Northern base surveillance concept design",owner:"BD + Eng",priority:"med",note:"Site survey + system design for Darwin, Tindal, Curtin",due:"Month 4–7"}],bid:[{title:"SOCI direct procurement proposals — first 3 entities",owner:"BD + Commercial",priority:"high",note:"Target: Port of Darwin, Dexus, Santos LNG",due:"Month 5–8"},{title:"ADF base surveillance ATM response",owner:"BD + Proposals",priority:"med",note:"Respond to CASG ATM when released",due:"Month 7–12"}],award:[{title:"No formal awards yet — first SOCI deal is the target",owner:"BD Director",priority:"high",note:"First deal validates dual-track model for FY26",due:"Target Month 9",outcome:"pending"}]},timeline:{totalWeeks:28,targetWeek:18,submissionLabel:"First SOCI Deal / ADF ATM Target",phases:[{name:"Network Activation",start:0,end:4,color:"#2b78d4"},{name:"SOCI Qualification",start:2,end:8,color:"#0e9ea6"},{name:"ADF Base Scoping",start:3,end:10,color:"#d4840a"},{name:"SOCI Proposals",start:6,end:14,color:"#c8aa3a"},{name:"ADF ATM Response",start:10,end:18,color:"#c8372d"},{name:"Award / Close",start:16,end:24,color:"#27a863"}],milestones:[{week:2,label:"SOCI network meetings begin"},{week:6,label:"SOCI concept brief"},{week:10,label:"First SOCI proposal out"},{week:18,label:"Target first award"}]}},roadrunner:{name:"Roadrunner-M",subtitle:"AUTONOMOUS INTERCEPTOR / REUSABLE CUAS PLATFORM",status:"potential",statusLabel:"POTENTIAL — NO ACTIVE ADF BID",domain:"Counter-UAS / Air Defence",maturity:"Production — 500+ units, US DoD combat eval since Jan 2024",auFootprint:"None confirmed",iipBudget:"IAMD / CUAS / base defence lines",description:"Roadrunner is a twin-turbojet VTOL autonomous air vehicle. The -M variant carries explosive payload for kinetic intercept of drones, cruise missiles, and loitering munitions. If it misses, it returns to base and relaunches. Over 500 units contracted by US DoD in a $250M package.",specs:[{label:"Type",value:"Twin-turbojet VTOL delta-wing"},{label:"Speed",value:"High subsonic"},{label:"Variant",value:"Roadrunner-M (kinetic interceptor)"},{label:"Reusability",value:"Returns to base if miss"},{label:"US Deployment",value:"Combat eval since Jan 2024"},{label:"Unit Cost",value:"Low $100Ks — falling"}],iip:[{primary:true,chapter:"Ch 6 — Force Protection",name:"Base Air Defence / CUAS Kinetic Layer",budget:"EW / force protection lines",fit:"primary",fitLabel:"PRIMARY FIT",desc:"Northern Australian bases face credible drone and cruise missile threat. Roadrunner-M is the most cost-effective layered kinetic response."},{primary:false,chapter:"Ch 3 — Land Combat",name:"Army Force Protection / CUAS",budget:"$690M ACCALS + force protection",fit:"secondary",fitLabel:"STRONG FIT",desc:"Army deployments in the northern approaches require organic CUAS beyond jamming."},{primary:false,chapter:"Ch 4 — Airpower",name:"Airbase Defence / IAMD Layer",budget:"Base hardening programs",fit:"secondary",fitLabel:"SECONDARY FIT",desc:"RAAF bases with expanded US force posture need IAMD depth."}],bd:["The northern base hardening program is the entry point. RAAF Darwin and RAAF Tindal are priority bases under the Force Posture Agreement.","ADF has no Roadrunner-equivalent program. The CUAS strategy gap identified by ASPI is your opening.","The US Marine Corps $642M contract for Roadrunner + Lattice + Pulsar is the proof case.","Joint procurement logic: Five Eyes CUAS interoperability creates burden-sharing argument.","SOCI bridge: critical infrastructure protection against drone threats is a civilian procurement pathway."],tender:{ref:"Illustrative: CASG-CUAS-ATM-2025-012",type:"ATM Response → RFT",category:"Counter-UAS Kinetic Intercept / Reusable Autonomous Interceptor",value:"A$200–500M (initial fleet + sustainment)",exec:"Anduril proposes Roadrunner-M as the ADF's kinetic layer in a comprehensive counter-UAS architecture for northern base defence and expeditionary force protection.",requirement:"Kinetic counter-UAS capability for northern bases and forward operations at a cost-per-kill ratio that allows sustained high-intensity operations.",solution:"Roadrunner-M's reusable design creates a cost-per-engagement well below any missile-based alternative. Deployed alongside Pulsar and Lattice for layered CUAS.",props:["Reusable interceptor: returns to base if intercept fails — dramatically lower cost-per-engagement.","Combat evaluation proven: deployed by US DoD since January 2024.","30-day deployability to northern bases."],commercial:"ASDEFCON (Complex Materiel) for initial fleet. Recommended initial fleet: 100–200 units across priority sites.",compliance:["DISP active — Anduril Australia","ITAR controls in place","US DoD reference data available under AUSMIN arrangements"]},kanban:{identify:[{title:"ADF CUAS gap analysis — ASPI brief to BD team",owner:"BD",priority:"high",note:"Use ASPI January 2025 report as external validation",due:"Month 1"},{title:"Map CASG CUAS / IAMD program offices",owner:"BD",priority:"high",note:"Identify which program office holds CUAS budget",due:"Month 1–2"}],qualify:[{title:"RAAF Darwin / Tindal Force Protection officer engagement",owner:"BD + Technical",priority:"high",note:"Understand current CUAS capability gaps at end-user level",due:"Month 2–4"}],shape:[{title:"Northern base CUAS architecture brief",owner:"BD + Eng",priority:"high",note:"Roadrunner + Pulsar + Lattice as layered CUAS system",due:"Month 3–7"},{title:"Cost-per-kill comparison study",owner:"BD + Technical",priority:"med",note:"Roadrunner vs Coyote vs NASAMS vs SAM alternatives",due:"Month 4–6"}],bid:[{title:"ASCA CUAS pathfinder program expression of interest",owner:"BD + Proposals",priority:"high",note:"ASCA is the fastest acquisition pathway outside CASG",due:"Month 6–10"}],award:[{title:"No active ADF award — target ASCA pathfinder",owner:"BD Director",priority:"high",note:"First win validates CUAS architecture pitch",due:"Target Month 12",outcome:"pending"}]},timeline:{totalWeeks:28,targetWeek:20,submissionLabel:"ASCA Pathfinder Submission",phases:[{name:"CUAS Gap Brief",start:0,end:4,color:"#2b78d4"},{name:"End-User Engagement",start:3,end:9,color:"#0e9ea6"},{name:"Architecture Concept",start:6,end:14,color:"#d4840a"},{name:"Commercial Build",start:10,end:18,color:"#c8aa3a"},{name:"ASCA EOI / RFT",start:16,end:20,color:"#c8372d"},{name:"Evaluation Support",start:20,end:26,color:"#9a5ad4"}],milestones:[{week:3,label:"CASG program office meeting"},{week:7,label:"Darwin/Tindal engagement"},{week:12,label:"Architecture brief to ASCA"},{week:20,label:"EOI submission"}]}},pulsar:{name:"Pulsar-L / EW Suite",subtitle:"MODULAR ELECTRONIC WARFARE & CUAS DEFEAT SYSTEM",status:"potential",statusLabel:"POTENTIAL — NO ACTIVE ADF BID",domain:"Electronic Warfare / Counter-UAS",maturity:"Production — SOCOM $1B IDIQ, operational since Aug 2023",auFootprint:"None confirmed",iipBudget:"Ch 6 Electronic Warfare / CUAS lines",description:"Pulsar is Anduril's AI-driven modular EW system for detecting, classifying, and defeating drone threats via RF jamming. Pulsar-L weighs under 25 pounds — shoebox sized. All variants integrate natively with Lattice but operate standalone. Part of a 10-year $1B IDIQ with US SOCOM.",specs:[{label:"Variants",value:"Pulsar-V, Alpha, Fixed, Pulsar-L"},{label:"Pulsar-L Weight",value:"<25 lbs / shoebox"},{label:"Mode",value:"Full autonomous or manual"},{label:"Integration",value:"Lattice-native (standalone OK)"},{label:"SOCOM Contract",value:"$1B IDIQ (10-yr)"},{label:"Deployment",value:"Operational since Aug 2023"}],iip:[{primary:true,chapter:"Ch 6 — Space & Cyber",name:"Electronic Warfare Modernisation",budget:"EW chapter — significant funding",fit:"primary",fitLabel:"PRIMARY FIT",desc:"IIP Chapter 6 dedicates funding to EW modernisation. Pulsar is production-ready, AI-native, and proven in operational deployments since 2023."},{primary:false,chapter:"Ch 6 — Space & Cyber",name:"Counter-UAS Non-Kinetic Defeat",budget:"Force protection across services",fit:"primary",fitLabel:"STRONG FIT",desc:"Pulsar provides the non-kinetic defeat layer in a layered CUAS architecture alongside Roadrunner and Lattice."},{primary:false,chapter:"Ch 3 — Land Combat",name:"Army EW / Tactical CUAS",budget:"$690M ACCALS",fit:"secondary",fitLabel:"SECONDARY FIT",desc:"Pulsar-L's small form factor is ideal for Army dismounted deployments in the northern approaches."}],bd:["The ADF's CUAS gap is your opening argument. ASPI January 2025 called out the lack of a comprehensive CUAS strategy.","Lead with Pulsar-L's simplicity: autonomous threat classification, shoebox-size, no specialist operator.","SOCOM is the reference customer — most demanding EW buyer in the world. 10-year $1B IDIQ is the credibility anchor.","Pair Pulsar with Sentry Tower and Lattice in the pitch: a turnkey surveillance-to-defeat CUAS architecture.","Critical infrastructure angle: Pulsar at LNG terminals, Snowy 2.0, port precincts — SOCI entities you have existing relationships inside."],tender:{ref:"Illustrative: CASG-EW-ATM-2025-008",type:"ATM Response → RFT",category:"Electronic Warfare / Modular CUAS Non-Kinetic Defeat System",value:"A$150–400M (fleet procurement + integration)",exec:"Anduril proposes the Pulsar electronic warfare suite as the ADF's modular, AI-driven EW layer for counter-UAS operations and base protection.",requirement:"EW system capable of defeating drone threats with small logistics footprint, autonomous mode, and C4ISR compatibility.",solution:"Pulsar variants cover fixed-site, vehicle-mounted, and airborne roles. All variants integrate natively with Lattice.",props:["Autonomous spectrum management: Pulsar classifies threats and engages without operator input.","Proven with most demanding user: 10-year $1B SOCOM IDIQ.","Modular family covers all roles: fixed, vehicle, airborne, and dismounted."],commercial:"Panel arrangement: ASDEFCON (Services) IDIQ with task orders by service and location.",compliance:["DISP active — Anduril Australia","SOCOM IDIQ reference contract available","Compatible with ADF EW frequency management frameworks"]},kanban:{identify:[{title:"IIP Ch 6 EW program office identification at CASG",owner:"BD",priority:"high",note:"Map program manager and budget line for EW modernisation",due:"Month 1"}],qualify:[{title:"Army EW cell introductory engagement",owner:"BD + Technical",priority:"high",note:"Understand current EW capability gaps at Army level",due:"Month 2–3"},{title:"RAAF EW / force protection briefing",owner:"BD",priority:"med",note:"Engage RAAF Aerospace Warfare Centre on CUAS requirements",due:"Month 3–4"}],shape:[{title:"Layered CUAS architecture brief — Pulsar + Roadrunner + Lattice",owner:"BD + Eng",priority:"high",note:"Position Pulsar as non-kinetic layer in complete CUAS stack",due:"Month 4–7"},{title:"Pulsar-L demo for Army dismounted CUAS requirement",owner:"BD + Technical",priority:"med",note:"Propose live demonstration at exercise or range",due:"Month 5–8"}],bid:[{title:"CASG EW modernisation ATM response",owner:"BD + Proposals",priority:"high",note:"Track ATM release — respond as prime or with prime",due:"Month 7–12"}],award:[{title:"No active ADF award",owner:"BD Director",priority:"high",note:"First EW win is a platform for the full CUAS architecture",due:"Target Month 14",outcome:"pending"}]},timeline:{totalWeeks:28,targetWeek:20,submissionLabel:"EW ATM Submission Target",phases:[{name:"EW Market Mapping",start:0,end:4,color:"#2b78d4"},{name:"Service Engagement",start:3,end:9,color:"#0e9ea6"},{name:"CUAS Architecture Brief",start:6,end:13,color:"#d4840a"},{name:"Demo Proposal",start:8,end:14,color:"#c8aa3a"},{name:"EW ATM Response",start:14,end:20,color:"#c8372d"},{name:"Evaluation Support",start:19,end:25,color:"#9a5ad4"}],milestones:[{week:3,label:"EW program office meeting"},{week:7,label:"Army EW engagement"},{week:11,label:"Layered CUAS brief"},{week:20,label:"ATM submission"}]}},fury:{name:"Fury / YFQ-44A",subtitle:"COLLABORATIVE COMBAT AIRCRAFT / GROUP 5 AUTONOMOUS UAS",status:"pitched",statusLabel:"PITCHED — Air 6015 NOT SELECTED (MQ-28A Dec 2025)",domain:"Airpower",maturity:"First flight Oct 2025 — USAF CCA Increment 1",auFootprint:"Avalon 2025 — RAAF evaluation participation",iipBudget:"Project Air 6015 — CCA / future tranches",description:"Fury is Anduril's Group 5 autonomous combat aircraft, selected by USAF for CCA Increment 1. First semi-autonomous flight: 31 October 2025. Australia reaffirmed MQ-28A Ghost Bat for Air 6015 in December 2025, but Fury remains relevant for future tranches and AUKUS interoperability.",specs:[{label:"Designation (USAF)",value:"YFQ-44A"},{label:"Engine",value:"Commercial jet — Williams FJ44"},{label:"First Flight",value:"31 Oct 2025"},{label:"Program",value:"USAF CCA Increment 1"},{label:"AU Status",value:"Not selected (Air 6015)"},{label:"Export Path",value:"FMS via USAF program"}],iip:[{primary:true,chapter:"Ch 4 — Airpower",name:"Air 6015 — Autonomous Collaborative Platforms",budget:"Multi-year programme",fit:"pitched",fitLabel:"PITCHED — NOT SELECTED",desc:"Australia selected MQ-28A Ghost Bat December 2025. RAAF has signalled 'family of systems' approach — Fury positioned for future increments."},{primary:false,chapter:"Ch 4 — Airpower",name:"F-35A Integration / AUKUS CCA Teaming",budget:"Air combat fleet",fit:"secondary",fitLabel:"POTENTIAL — FUTURE",desc:"USAF CCA design intent is F-35A and F-47 teaming. Australia's F-35A fleet creates a future demand signal."}],bd:["Australia chose Ghost Bat, not no CCA — the door is not closed. RAAF has explicitly left room for a 'family of systems'. Position Fury for the next tranche.","The better angle in 2026: position Fury as a higher-end UCAV for contested environments where Ghost Bat's ISR-primary design is less suitable.","AUKUS CCA interoperability: if USAF deploys YFQ-44 at Darwin under Force Posture Agreement, RAAF familiarity becomes a procurement catalyst.","Singapore DSTA / RSAF partnership signals regional CCA interest beyond Australia.","David Goodrich confirmed RAAF has run an evaluation process Anduril participated in — those relationships are warm."],tender:{ref:"Illustrative: Future RAAF-CCA-ATM-2027 / AUKUS-CCA-2026",type:"Monitor for ATM — Position for future tranche / AUKUS co-program",category:"Collaborative Combat Aircraft — Future Tranche / Supplementary UCAV",value:"A$1–3B estimated (future tranche / supplementary program)",exec:"Following Australia's selection of the MQ-28A Ghost Bat for Project Air 6015, Anduril positions Fury for consideration in future CCA tranches or supplementary autonomous combat programs.",requirement:"Future requirement: RAAF requires autonomous collaborative platforms capable of operating in contested, denied environments including kinetic strike capability.",solution:"Fury brings fighter-comparable performance, Lattice-native autonomy, and mass-production economics.",props:["USAF operational credibility: Fury is in active USAF production competition.","Mass production economics: commercial jet engine and modular design target unit cost well below Ghost Bat.","AUKUS interoperability: if USAF deploys YFQ-44 at Darwin, Australian procurement aligns with basing."],commercial:"FMS Letter of Offer and Acceptance via DSCA, or direct commercial sale with DASA approval.",compliance:["FMS pathway via DSCA","ITAR controls under existing DASA instruments","DISP active — Anduril Australia"]},kanban:{identify:[{title:"Air 6015 Increment 2 / supplementary CCA timeline research",owner:"BD",priority:"med",note:"Monitor RAAF programme office for future tranche signals",due:"Ongoing"}],qualify:[{title:"RAAF Air Combat Capability directorate — relationship maintenance",owner:"BD Director",priority:"high",note:"Maintain warm relationships from Air 6015 evaluation — quarterly touchpoint",due:"Quarterly"}],shape:[{title:"AUKUS CCA interoperability study proposal to DSTO",owner:"BD + Policy",priority:"med",note:"Establish Fury / USAF CCA as AUKUS interoperability pathway",due:"Month 6–12"}],bid:[{title:"Monitor for future CCA tender or supplementary program",owner:"BD",priority:"med",note:"No active bid — maintain position for next opportunity window",due:"TBD 2027+"}],award:[{title:"Air 6015 Inc 1 — NOT SELECTED",owner:"Lessons learned",priority:"high",note:"MQ-28A selected December 2025. Relationship maintained.",due:"Dec 2025",outcome:"lost"}]},timeline:{totalWeeks:28,targetWeek:24,submissionLabel:"Future CCA / AUKUS Program Position",phases:[{name:"Monitor Air 6015",start:0,end:8,color:"#5a6b7a"},{name:"Relationship Maintenance",start:0,end:28,color:"#1a4f8a"},{name:"AUKUS CCA Study",start:6,end:16,color:"#d4840a"},{name:"Future Tranche Prep",start:14,end:24,color:"#c8372d"}],milestones:[{week:4,label:"Quarterly RAAF meeting"},{week:10,label:"AUKUS study proposal"},{week:18,label:"Fury USAF production decision"},{week:24,label:"Position for next tranche"}]}},ghost_uas:{name:"Ghost UAS Family",subtitle:"AUTONOMOUS GROUP 1–3 UNCREWED AERIAL SYSTEMS",status:"potential",statusLabel:"POTENTIAL — NO ACTIVE ADF BID",domain:"ISR / Tactical UAS",maturity:"Production — Ghost X selected US Army Sep 2024",auFootprint:"No formal ADF contract",iipBudget:"$4.3B+ UAS / $690M ACCALS tactical UAS",description:"The Ghost UAS family spans Group 1 to Group 3, optimised for ISR and Lattice integration. Ghost X extends range to 25km with 75-minute endurance, assembles without tools in under 2 minutes. The US Army selected Ghost X in September 2024 for its Company-Level Small UAS Directed Requirement.",specs:[{label:"Ghost X Flight Time",value:"75 minutes"},{label:"Ghost X Range",value:"25 km"},{label:"Assembly Time",value:"<2 minutes, no tools"},{label:"Swarm Capability",value:"Yes — autonomous mesh relay"},{label:"Lattice Integration",value:"Native"},{label:"US Army Contract",value:"Company-Level Small UAS, Sep 2024"}],iip:[{primary:true,chapter:"Ch 3 — Land Combat",name:"ACCALS — Army Tactical UAS",budget:"$690M ACCALS",fit:"primary",fitLabel:"STRONG FIT",desc:"ACCALS includes $690M for uncrewed tactical systems. Ghost X directly competes — proven, US Army selected, Lattice-native."},{primary:false,chapter:"Ch 4 — Airpower",name:"RAAF Small UAS — Base ISR & Maritime Support",budget:"$4.3B+ UAS envelope",fit:"secondary",fitLabel:"SECONDARY FIT",desc:"RAAF small UAS for base surveillance and maritime patrol support."},{primary:false,chapter:"Ch 2 — Maritime",name:"Ship-Launched Tactical ISR",budget:"Maritime surveillance",fit:"tertiary",fitLabel:"POTENTIAL",desc:"Ship-launched Ghost for frigate and destroyer organic ISR."}],bd:["Ghost X US Army selection (September 2024) is the critical proof point. ADF Army mirrors US Army procurement closely.","ACCALS is underfunded for its ambition. ASPI called out the shortfall explicitly.","The swarm relay capability is the differentiation argument. Ghost provides quantity, resilience, and low replacement cost.","Every Ghost deployed extends the Lattice operating picture to company level.","Propose Ghost X demonstration alongside ADF exercises in northern Australia as a funded pathway to procurement."],tender:{ref:"Illustrative: CASG-UAS-ATM-2025-034",type:"ATM Response → RFT",category:"Group 1–3 Tactical Uncrewed Aerial Systems — Army & RAAF",value:"A$100–300M (initial fleet + sustainment)",exec:"Anduril proposes the Ghost UAS family for ADF tactical UAS requirements across Army and RAAF. The US Army's September 2024 selection of Ghost X provides the highest-confidence reference evaluation available.",requirement:"Group 1–3 UAS capable of providing organic ISR at company level in the northern approaches, integrating with ADF C4ISR architecture.",solution:"Ghost X provides 75-minute endurance and 25km range, assembles in under two minutes. Lattice-native integration extends the tactical operating picture to company commanders.",props:["US Army selected September 2024: the most rigorous tactical UAS evaluation in the past decade.","Swarm relay: multiple Ghost units extend Lattice's operating picture.","2-minute assembly, no tools: logistics burden compatible with light infantry in remote northern Australia."],commercial:"ASDEFCON (Complex Materiel) for initial fleet. Recommended: 200–400 systems across Army Land Force and RAAF deployable units.",compliance:["DISP active — Anduril Australia","US Army evaluation data available","ADF Autonomous Weapons Policy compliant in ISR configuration"]},kanban:{identify:[{title:"ACCALS program office contact at Land Forces Command",owner:"BD",priority:"high",note:"Map program manager and current UAS procurement timeline",due:"Month 1–2"}],qualify:[{title:"Army UAS officer engagement — end-user requirements",owner:"BD + Technical",priority:"high",note:"Understand tactical ISR gaps at company/battalion level",due:"Month 2–4"},{title:"RAAF small UAS requirement mapping",owner:"BD",priority:"med",note:"Identify RAAF ISR and maritime patrol UAS requirements",due:"Month 3–5"}],shape:[{title:"Ghost X demonstration proposal — Exercise Talisman Sabre",owner:"BD + Technical",priority:"high",note:"Exercise demonstration is the fastest path to procurement decision",due:"Month 4–8"},{title:"Swarm ISR concept brief for northern approaches",owner:"BD + Eng",priority:"med",note:"Show how Ghost swarm extends Lattice picture at APC level",due:"Month 5–9"}],bid:[{title:"ACCALS Company UAS RFT response",owner:"BD + Proposals",priority:"high",note:"Monitor CASG for ACCALS UAS tender release",due:"Month 8–14"}],award:[{title:"No active ADF award — target ACCALS tender",owner:"BD Director",priority:"high",note:"Ghost X US Army selection is the proof case",due:"Target Month 16",outcome:"pending"}]},timeline:{totalWeeks:28,targetWeek:22,submissionLabel:"ACCALS RFT Submission Target",phases:[{name:"Market Intelligence",start:0,end:4,color:"#2b78d4"},{name:"End-User Engagement",start:2,end:9,color:"#0e9ea6"},{name:"Concept Development",start:6,end:14,color:"#d4840a"},{name:"Demo Proposal",start:8,end:16,color:"#c8aa3a"},{name:"RFT Response",start:16,end:22,color:"#c8372d"},{name:"Evaluation Support",start:21,end:26,color:"#9a5ad4"}],milestones:[{week:3,label:"ACCALS PM meeting"},{week:7,label:"Army UAS engagement"},{week:12,label:"Talisman Sabre demo"},{week:22,label:"RFT submission"}]}},altius:{name:"ALTIUS / Loitering Munitions",subtitle:"TUBE-LAUNCHED EXPENDABLE UAS / LOITERING MUNITION FAMILY",status:"potential",statusLabel:"POTENTIAL — NO ACTIVE ADF BID",domain:"Strike / Expendable UAS",maturity:"Production — Altius-600, 700, 900 active",auFootprint:"No announced ADF procurement",iipBudget:"$1B+ long-range strike / $690M ACCALS / AUKUS Pillar II",description:"ALTIUS is Anduril's family of tube-launched expendable UAS. Variants from Altius-600 (ISR-primary) to Altius-900 (strike-capable). Launched from aircraft, submarines, surface vessels, ground vehicles, or static launchers. Ukraine has validated this category as operationally decisive.",specs:[{label:"Family",value:"Altius-600, 700, 900"},{label:"Launch Modes",value:"Air / Ground / Sub / Surface"},{label:"Mission Types",value:"ISR, Strike, EW, Decoy"},{label:"Swarm Capable",value:"Yes — Lattice-coordinated"},{label:"Origin",value:"Area-I acquisition (2021)"},{label:"ADF Status",value:"Not procured"}],iip:[{primary:true,chapter:"Ch 5 — Targeting & Strike",name:"Long-Range Strike / Expendable UAS",budget:"$1B+ strike acceleration",fit:"primary",fitLabel:"STRONG FIT",desc:"IIP and NDS explicitly prioritise long-range strike and attritable systems. Ukraine has validated the operational logic."},{primary:false,chapter:"Ch 3 — Land Combat",name:"Army Low-Cost Attritable UAS",budget:"$690M ACCALS + future attritable",fit:"primary",fitLabel:"STRONG FIT",desc:"IIP references 'low-cost and expendable small UAS' as an investment priority. ALTIUS is the production-ready answer."},{primary:false,chapter:"AUKUS Pillar II",name:"Attritable / Expendable Systems Co-Development",budget:"AUKUS Pillar II workstreams",fit:"secondary",fitLabel:"AUKUS PATHWAY",desc:"AUKUS Pillar II Advanced Capabilities has attritable systems adjacency."}],bd:["The Ukraine argument lands hardest here. Any ADF audience understands that tube-launched expendable strike UAS is a current operational gap.","AUKUS Pillar II attritable systems workstream is the multilateral entry point.","Sub-launch variant is the high-interest Navy conversation. Collins-class captains want organic strike without surfacing.","Combine ALTIUS with Ghost Shark: undersea ISR identifies the target, Lattice passes the track, Collins launches Altius-900. Complete kill chain.","Frame as ISR-primary with optional strike payload to navigate Australia's autonomous weapons policy discussion."],tender:{ref:"Illustrative: AUKUS-P2-Attritable-2025 / CASG-LRS-ATM-2026",type:"AUKUS Pillar II Co-development + ADF ATM (parallel tracks)",category:"Tube-Launched Expendable UAS / Loitering Munition — ISR & Strike",value:"A$200–600M (fleet procurement + co-development contribution)",exec:"Anduril proposes the ALTIUS family for the ADF's long-range strike and attritable ISR requirements — addressing the most significant gap exposed by the Ukraine conflict.",requirement:"Low-cost, mass-producible, tube-launched expendable UAS capable of ISR and autonomous collaborative operations across domains.",solution:"Phased ALTIUS program: Phase 1 — Altius-600 for ISR-primary; Phase 2 — Altius-900 Collins-class sub-launch; Phase 3 — AUKUS co-development.",props:["Ukraine-validated: tube-launched expendable UAS is the decisive tactical capability the IIP is yet to address at scale.","Sub-launch from Collins: extends reach without surfacing.","AUKUS co-development pathway: Australian sovereign components."],commercial:"AUKUS Pillar II co-funding for development. ASDEFCON (Complex Materiel) for operational fleet.",compliance:["AUKUS technology sharing framework applicable","ADF Autonomous Weapons Policy: ISR-primary compliant","DISP active — Anduril Australia"]},kanban:{identify:[{title:"AUKUS Pillar II attritable systems working group contacts",owner:"BD + Policy",priority:"high",note:"Identify Australian IPO contacts and AUKUS P2 program managers",due:"Month 1–2"}],qualify:[{title:"Collins-class sub-launch feasibility discussion",owner:"BD + Technical",priority:"high",note:"Engage Submarine Force and CASG on sub-launch requirement",due:"Month 2–5"}],shape:[{title:"Ghost Shark + ALTIUS kill chain concept paper",owner:"BD + Eng",priority:"high",note:"Undersea ISR to sub-launched strike — complete Anduril kill chain",due:"Month 4–8"},{title:"AUKUS co-development concept proposal",owner:"BD + Policy + Eng",priority:"high",note:"Define Australian sovereign component pathway under AUKUS framework",due:"Month 6–10"}],bid:[{title:"AUKUS Pillar II joint development proposal",owner:"BD + Proposals",priority:"high",note:"Dual-track: AUKUS co-development + ADF ATM",due:"Month 10–16"}],award:[{title:"No active ADF award — AUKUS pathway priority",owner:"BD Director",priority:"high",note:"AUKUS entry is the most differentiated and durable path to ADF procurement",due:"Target Month 18",outcome:"pending"}]},timeline:{totalWeeks:28,targetWeek:22,submissionLabel:"AUKUS P2 Proposal / ADF ATM Target",phases:[{name:"AUKUS P2 Intelligence",start:0,end:5,color:"#2b78d4"},{name:"Sub-Launch Qualification",start:3,end:10,color:"#0e9ea6"},{name:"Kill Chain Concept",start:6,end:14,color:"#d4840a"},{name:"AUKUS Proposal Build",start:10,end:18,color:"#c8aa3a"},{name:"Dual-Track Bid",start:16,end:22,color:"#c8372d"},{name:"Evaluation / Negotiation",start:21,end:27,color:"#9a5ad4"}],milestones:[{week:3,label:"AUKUS IPO meeting"},{week:8,label:"Collins-class sub-launch study"},{week:12,label:"Kill chain concept brief"},{week:22,label:"AUKUS P2 proposal"}]}}};
+var tam={funnel:[{name:"Australia IIP Acquisition Budget 2024–2034",value:"~A$270B",pct:100,color:"#1e2a38"},{name:"Systems & Platform Acquisition (non-personnel)",value:"~A$120B",pct:70,color:"#1a4f8a"},{name:"Autonomous, AI, EW & Advanced Capabilities",value:"~A$40B",pct:42,color:"#0e9ea6"},{name:"Anduril AU Direct Addressable",value:"~A$12–18B",pct:22,color:"#d4840a"},{name:"Near-Term Pipeline FY26–FY29",value:"~A$4–6B",pct:10,color:"#c8aa3a"},{name:"Contracted — Ghost Shark Ph.1 + NZDF adj.",value:"~A$1.9B",pct:4,color:"#27a863"}],segments:[{name:"Undersea Warfare — RAN",products:"Ghost Shark, Lattice, ALTIUS (sub-launch)",iipLine:"IIP Ch 2 — AUV, Undersea Surveillance",totalAddr:"A$5.2–7.2B",andurilShare:"A$2–4B",sharePct:52,status:"contracted"},{name:"C4ISR & Autonomous Battle Mgmt",products:"Lattice OS — all platforms",iipLine:"IIP Ch 2, 4, 5, 6 — cross-cutting",totalAddr:"A$2–4B",andurilShare:"A$1–2.5B",sharePct:44,status:"active"},{name:"UAS — Tactical & Collaborative",products:"Ghost UAS Family, ALTIUS",iipLine:"IIP Ch 3/4 — ACCALS + Air 6015",totalAddr:"A$4.3B",andurilShare:"A$0.5–1.5B",sharePct:16,status:"potential"},{name:"CUAS & Electronic Warfare",products:"Roadrunner-M, Pulsar-L, Sentry Tower",iipLine:"IIP Ch 3, 6 — Base Defence / EW",totalAddr:"A$1–2.5B",andurilShare:"A$0.5–1.2B",sharePct:32,status:"potential"},{name:"SOCI Critical Infrastructure (AU)",products:"Sentry Tower — civilian channel",iipLine:"SOCI Act 2018 — adjacent commercial",totalAddr:"A$0.8–2B est.",andurilShare:"A$0.3–0.8B",sharePct:24,status:"potential"},{name:"NZDF — Five Eyes Adjacent",products:"Ghost Shark, Ghost UAS, Lattice",iipLine:"NZDF Defence Capability Plan 2024",totalAddr:"NZ$1.5–3B",andurilShare:"A$0.3–0.8B",sharePct:18,status:"potential"},{name:"AUKUS Pillar II Co-development",products:"Ghost Shark, ALTIUS, Lattice SDK",iipLine:"AUKUS P2 — undersea, autonomy, AI",totalAddr:"A$2–5B",andurilShare:"A$0.5–1.5B",sharePct:20,status:"potential"}],budgetContext:[{label:"AU Defence Budget FY2025–26",value:"~A$56B",note:"Growing toward 2.4% GDP by 2033–34"},{label:"IIP Autonomous & Robotics line",value:"A$1B accel.",note:"NDS 2024 — additional A$1B over 4 yrs for R&AS"},{label:"Undersea Warfare (IIP Ch 2)",value:"A$5.2–7.2B",note:"Decade budget — Ghost Shark is Mission 0"},{label:"UAS (all services — IIP)",value:"A$10B+",note:"A$4.3B+ UAS + A$690M ACCALS + adjacencies"},{label:"EW Modernisation (IIP Ch 6)",value:"Classified",note:"Force protection / northern base hardening"},{label:"NZDF annual budget",value:"NZ$4.3B",note:"FY2024 — growing under DCP 2024"}]};
+var gtm={pillars:[{num:"01",title:"Generate & Capture",body:"Build a pipeline of qualified ANZ opportunities across Anduril's full product suite, grounded in deep knowledge of ADF programmatic roadmaps, buying cycles, and competitor positioning. Manage continuous engagement across CASG, ASCA, DST Group, service-level capability managers, and SOCI entities. Monitor AusTender weekly. Target A$1B+ qualified pipeline within 12 months.",kpi:"Year 1 target: A$1B+ qualified pipeline"},{num:"02",title:"Grow Existing Business",body:"Ghost Shark Phase 1 is the beachhead — A$1.7B contracted, delivered ahead of schedule. Partner with Operations to sustain that delivery performance, then move fast on shaping Phase 2. ASCA Mission 0 is a relationship, not just a contract — leverage it to position Lattice, Ghost UAS, and Roadrunner for Missions 1 through N.",kpi:"Year 1: Phase 2 ATM shaped and responded to. Year 2: 60% ARR growth"},{num:"03",title:"Communicate Value",body:"Represent Anduril as a defence technology company, not a prime contractor. Speak at LAND Forces, Indo-Pacific Forum, ACIF, and ADM events. Write for ASPI Strategist on autonomous systems. Build the public profile that makes the Anduril ANZ office the most visible tech defence company in the country.",kpi:"Target: 5+ speaking/publication engagements in Year 1"},{num:"04",title:"Inform Product Development",body:"Every ADF client conversation must feed back to Anduril's product and engineering teams within 48 hours. Translate ADF requirements into structured product briefs. Establish a quarterly ANZ product roadmap review with Anduril's global product leadership.",kpi:"Quarterly product brief cadence — 2 roadmap inputs per quarter minimum"}],tiers:[{cls:"tier1",title:"Tier 1 — Strategic Decision Makers",label:"ENGAGE IMMEDIATELY",contacts:[{name:"Adm David Johnston AC RAN — CDF",note:"Chief of Defence Force from Jul 2024. Focus: ADF rebuild, Indo-Pacific."},{name:"VADM Mark Hammond AO RAN — CN",note:"Chief of Navy. Ghost Shark fleet commander. Submarine background — natural Anduril champion."},{name:"LTGEN Simon Stuart OAM — CA",note:"Chief of Army since Jul 2022. ACCALS and northern land force focus."},{name:"AIRMSHL Stephen Chappell DSC — CAF",note:"Chief of Air Force. Air 6015 / CCA owner. Fury and Lattice C2 conversation."},{name:"MG Hugh Meggitt AM CSC — ASCA Head",note:"Appointed Feb 2025. Ghost Shark Mission 0. Priority Tier 1 contact."}]},{cls:"tier2",title:"Tier 2 — Program Owners & Budget Holders",label:"DEVELOP IN MONTH 1–3",contacts:[{name:"AIRMSHL Robert Chipman AO CSC — VCDF",note:"Vice Chief of Defence Force. Direct ASCA oversight. AUKUS Pillar II accountability."},{name:"RADM Justin Jones CSC — CJOPS",note:"Chief of Joint Operations. Lattice C2 and multi-domain ISR."},{name:"Prof Tanya Munro — Chief Scientist, DST Group",note:"Defence Science & Technology Group. AI/autonomy portfolio."},{name:"CASG — Head Capability Programs",note:"Capability Acquisition & Sustainment Group. All IIP program offices sit here."},{name:"RAN Submarine Force — Head",note:"Ghost Shark sustainment + ALTIUS sub-launch requirement holder."}]},{cls:"tier3",title:"Tier 3 — Influencers & Adjacent Channels",label:"WARM IN PARALLEL",contacts:[{name:"David Goodrich OAM — CEO Anduril AU",note:"Internal — quarterly pipeline and GTM reviews. Regional alignment."},{name:"ACIF / AIDN — Industry Forums",note:"AUKUS Industry Forum and AIDN. Visibility and early deal flow."},{name:"SOCI entities — Dexus, Mirvac, Charter Hall, GPT, Santos",note:"Michael's direct C-suite network. Sentry Tower and Pulsar civilian channel."},{name:"NZDF — Capability Development Group",note:"Five Eyes adjacent. Ghost Shark NZDF variant conversation."},{name:"ASPI Strategist / AUSI — Analysts",note:"Shaping the policy conversation on autonomous systems."}]}],plan:[{cls:"d30",days:"Days 1–30",sub:"ORIENT + DEPLOY",items:["Week 1: Canberra trip — ASCA introduction with MG Meggitt, CASG program office walkthrough, Defence HQ orientation. Do not wait for an invite.","Week 1: Brief review of Ghost Shark Phase 1 delivery schedule, open issues, and RAN relationship health — know the account before meeting anyone.","Week 2: RAN Submarine Force — schedule first Ghost Shark Phase 2 scoping conversation. Come with draft Phase 2 scope, not a blank page.","Week 2: Sydney — SOCI entity introductions using direct C-suite network at Dexus and Mirvac. Sentry Tower compliance briefing drafted and ready.","Week 3: Map every active CASG program office relevant to Anduril's product suite. Identify program managers by name, not just title.","Week 4: Canberra return — DST Group Chief Scientist Prof Munro meeting. Autonomous systems portfolio and Lattice SDK sovereign pathway discussion.","Week 4: First internal BD pipeline report to David Goodrich — 10 qualified opportunities identified with names, budgets, and contact status."]},{cls:"d60",days:"Days 31–60",sub:"ENGAGE + EMBED",items:["Week 5: Northern Australia — RAAF Darwin and RAAF Tindal base visits. Force protection officers. Sentry + Pulsar CUAS architecture needs assessment on the ground.","Week 5: ACIF or AIDN event attendance. Introduce Anduril as the company that built Ghost Shark on time.","Week 6: CASG C4ISR program office first meeting — Lattice C2 concept paper in hand, not a brochure.","Week 7: Army Land Forces Command engagement — ACCALS tactical UAS requirement. Ghost X US Army selection data as proof case.","Week 8: First SOCI entity proposal out of the door (Sentry Tower at Port of Darwin or Santos LNG). Revenue from outside the ADF in Month 2.","Week 8: Wellington — NZDF Capability Development Group visit. Ghost Shark variant conversation and Five Eyes autonomous systems alignment.","Week 8: Second BD pipeline report — pipeline growing, 3+ opportunities advanced to Qualify stage."]},{cls:"d90",days:"Days 61–90",sub:"EXECUTE + PUBLISH",items:["Week 9: ASCA quarterly review with MG Meggitt — present Ghost Shark Phase 2 framing and first Anduril product options for Mission 1.","Week 10: LAND Forces 2026 / Indo-Pacific Forum — speaking submission lodged or panel appearance confirmed.","Week 11: First formal ATM response in preparation — Lattice C4ISR or northern base CUAS architecture. Internal review cycle started.","Week 12: ASPI Strategist op-ed drafted on ADF autonomous systems capability gap.","Week 12: Full 90-day review with David Goodrich — A$500M+ pipeline confirmed, 2 proposals advanced, 1 SOCI deal signed or in negotiation.","Week 13: Clearance application lodged or engagement with AGSVA underway — NV1 as minimum, NV2 path confirmed."]}],capture:[{num:"0",name:"Identify",prob:"0–15%",gate:"Budget confirmed in IIP or SOCI legislation. Requirement is real. Named stakeholder identified."},{num:"1",name:"Qualify",prob:"15–35%",gate:"ADF/SOCI problem understood. Anduril can win. Decision timeline known. Competitor landscape mapped."},{num:"2",name:"Shape",prob:"35–55%",gate:"Solution validated with end-user in field. Teaming confirmed. Pricing bounded. Requirement influenced."},{num:"3",name:"Compete",prob:"55–75%",gate:"ATM/RFT response submitted. Oral presentation or capability demo delivered. Evaluation active."},{num:"4",name:"Award",prob:"75–100%",gate:"BAFO submitted. Negotiations active. CASG/ASCA contracting team engaged. Contract in sight."}],kpis:[{label:"Qualified Pipeline — Year 1",value:"A$1B+",note:"Ghost Shark P2 alone justifies this — fill the funnel across all products"},{label:"ATM / RFT Responses — Year 1",value:"6–8",note:"P2 Ghost Shark, Lattice C4ISR, CUAS arch, Sentry SOCI x2, ALTIUS AUKUS"},{label:"Win Rate Target — Year 2",value:">40%",note:"Above industry norm; Anduril's ANZ proof of delivery is the unfair advantage"},{label:"Stakeholder Meetings / Quarter",value:"30–40",note:"Canberra, Sydney, Darwin, Tindal, Wellington — in the field, not on Zoom"},{label:"Ghost Shark P2 — Shaped & Bid",value:"Month 10",note:"Phase 2 ATM response submitted before tender is formally released"},{label:"SOCI Commercial Deals — Year 1",value:"4–6",note:"First non-ADF revenue stream. Dexus, Mirvac, Port of Darwin, Santos LNG"},{label:"NZDF Pipeline — Year 1",value:"NZ$100M+",note:"Five Eyes channel. Wellington engagement starts Month 2."},{label:"Product Roadmap Inputs",value:"8 / year",note:"2 per quarter minimum — ADF requirements feeding global product teams"},{label:"Clearance — NV1",value:"Month 6",note:"NV2 eligibility confirmed. Application lodged by end of Month 3."}]};
+function clearActive(){document.querySelectorAll('.product-btn, .view-btn').forEach(function(b){b.classList.remove('active');});}
+function doLoad(id,btn){clearActive();if(btn)btn.classList.add('active');renderProduct(id);}
+function doLoadView(id,btn){clearActive();if(btn)btn.classList.add('active');if(id==='tam')renderTAM();else if(id==='gtm')renderGTM();else renderOverview();}
+function renderProduct(id){var p=products[id];if(!p)return;var firstWord=p.name.split(' ')[0];var rest=p.name.substring(firstWord.length);var html='<div class="product-header"><div><div class="product-name"><span class="hl">'+firstWord+'</span>'+rest+'</div><div class="product-subtitle">'+p.subtitle+'</div></div><span class="product-status-badge badge-'+p.status+'">'+p.statusLabel+'</span></div>';html+='<div class="tabs" id="ptabs">';var tns=['overview','iip','bd','tender','actions','timeline'];var tls=['Overview','IIP Mapping','BD Angles','Tender','Actions','Timeline'];tns.forEach(function(t,i){html+='<button class="tab-btn'+(i===0?' active':'')+'" onclick="switchTab(\''+t+'\')">'+tls[i]+'</button>';});html+='</div>';tns.forEach(function(t,i){html+='<div id="tab-'+t+'" class="tab-panel'+(i===0?' active':'')+'">'+buildTabContent(id,t)+'</div>';});document.getElementById('main').innerHTML=html;}
+function switchTab(name){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});document.querySelectorAll('#ptabs .tab-btn').forEach(function(b){b.classList.remove('active');});var tab=document.getElementById('tab-'+name);if(tab)tab.classList.add('active');var idx={overview:0,iip:1,bd:2,tender:3,actions:4,timeline:5};var btns=document.querySelectorAll('#ptabs .tab-btn');if(btns[idx[name]])btns[idx[name]].classList.add('active');}
+function buildTabContent(id,tab){var p=products[id];if(tab==='overview')return buildOverviewTab(p);if(tab==='iip')return buildIIPTab(p);if(tab==='bd')return buildBDTab(p);if(tab==='tender')return buildTenderTab(p);if(tab==='actions')return buildActionsTab(p);if(tab==='timeline')return buildTimelineTab(p);return '';}
+function buildOverviewTab(p){var h='<div class="section-label">Product Overview</div><p>'+p.description+'</p><div class="section-label">Key Specifications</div><div class="specs-grid">';p.specs.forEach(function(s){h+='<div class="spec-card"><div class="spec-label">'+s.label+'</div><div class="spec-value">'+s.value+'</div></div>';});h+='</div><div class="section-label">ADF Relevance Summary</div><p><strong>Domain:</strong> '+p.domain+' &nbsp;|&nbsp; <strong>Maturity:</strong> '+p.maturity+'</p><p><strong>Australia Footprint:</strong> '+p.auFootprint+'</p><p><strong>IIP Budget Signal:</strong> '+p.iipBudget+'</p>';return h;}
+function buildIIPTab(p){var h='<div class="section-label">IIP Capability Line Mapping</div><div class="iip-grid">';p.iip.forEach(function(item){h+='<div class="iip-row '+(item.primary?'primary':'secondary')+'"><div><div class="iip-chapter">'+item.chapter+'</div><div class="iip-name">'+item.name+'</div><div class="iip-budget">'+item.budget+'</div></div><div class="iip-desc">'+item.desc+'</div><div><span class="iip-fit fit-'+item.fit+'">'+item.fitLabel+'</span></div></div>';});h+='</div>';return h;}
+function buildBDTab(p){var h='<div class="bd-card"><div class="bd-card-title">BD Strategy — '+p.name+'</div><ul class="bd-list">';p.bd.forEach(function(item){h+='<li>'+item+'</li>';});h+='</ul></div>';return h;}
+function buildTenderTab(p){var t=p.tender;var h='<div class="tender-doc"><div class="tender-header"><div><div class="tender-ref">'+t.ref+'</div><div class="tender-title">'+t.category+'</div></div><div class="tender-meta"><span class="tender-type">'+t.type+'</span><div class="tender-value">'+t.value+'</div></div></div><div class="tender-body"><div class="tender-section"><div class="tender-section-label">Executive Summary</div><div class="tender-text">'+t.exec+'</div></div><div class="tender-section"><div class="tender-section-label">Understanding of Requirement</div><div class="tender-text">'+t.requirement+'</div></div><div class="tender-section"><div class="tender-section-label">Proposed Solution</div><div class="tender-text">'+t.solution+'</div></div><div class="tender-section"><div class="tender-section-label">Value Propositions</div><ul class="tender-list">';t.props.forEach(function(item){h+='<li>'+item+'</li>';});h+='</ul></div><div class="tender-section"><div class="tender-section-label">Commercial Framework</div><div class="tender-text">'+t.commercial+'</div></div><div class="tender-section"><div class="tender-section-label">Compliance Declarations</div><div class="tender-compliance">';t.compliance.forEach(function(item){h+='<span class="compliance-tag">'+item+'</span>';});h+='</div></div></div></div>';return h;}
+function buildActionsTab(p){var k=p.kanban;var cols=[{id:'identify',cls:'kc-identify',label:'IDENTIFY'},{id:'qualify',cls:'kc-qualify',label:'QUALIFY'},{id:'shape',cls:'kc-shape',label:'SHAPE'},{id:'bid',cls:'kc-bid',label:'BID'},{id:'award',cls:'kc-award',label:'AWARD'}];var h='<div class="kanban-board">';cols.forEach(function(col){var cards=k[col.id]||[];h+='<div class="kanban-col '+col.cls+'"><div class="kanban-col-header"><span class="kanban-col-title">'+col.label+'</span><span class="kanban-count">'+cards.length+'</span></div><div class="kanban-cards">';cards.forEach(function(card){var oc=card.outcome?' '+card.outcome:'';h+='<div class="kanban-card'+oc+'"><div class="kcard-title">'+card.title+'</div><div class="kcard-note">'+card.note+'</div><div class="kcard-meta"><span class="kcard-owner">'+card.owner+'</span><span class="kcard-priority priority-'+card.priority+'">'+card.priority.toUpperCase()+'</span></div><div class="kcard-due">'+card.due+'</div></div>';});h+='</div></div>';});h+='</div>';return h;}
+function buildTimelineTab(p){var tl=p.timeline;var totalWks=tl.totalWeeks;var weekLabels='';for(var w=0;w<=totalWks;w+=4){weekLabels+='<div class="timeline-week-label" style="width:'+(4/totalWks*100)+'%">W'+w+'</div>';}var h='<div class="timeline-wrapper"><div class="timeline-header-row"><span class="timeline-title-lg">Program Timeline — '+p.name+'</span><span class="timeline-target-badge">TARGET: W'+tl.targetWeek+' — AHEAD OF SCHEDULE</span></div><div class="timeline-body"><div class="timeline-week-labels">'+weekLabels+'</div>';tl.phases.forEach(function(phase){var lp=(phase.start/totalWks*100).toFixed(1)+'%';var wp=((phase.end-phase.start)/totalWks*100).toFixed(1)+'%';var tl2=(tl.targetWeek/totalWks*100).toFixed(1)+'%';h+='<div class="timeline-row"><div class="timeline-phase-label">'+phase.name+'</div><div class="timeline-track"><div class="timeline-target-line" style="left:'+tl2+'"><span class="target-line-label">TARGET</span></div><div class="timeline-bar" style="left:'+lp+';width:'+wp+';background:'+phase.color+';opacity:0.75"><span>'+phase.name+'</span></div></div></div>';});h+='<div class="timeline-milestones-list">';tl.milestones.forEach(function(m){h+='<div class="milestone-item"><span class="milestone-week-tag">WEEK '+m.week+'</span><span style="color:var(--text-dim)">◆ '+m.label+'</span></div>';});h+='</div><div class="timeline-legend" style="margin-top:12px">';tl.phases.forEach(function(ph){h+='<div class="tl-legend-item"><div class="tl-legend-dot" style="background:'+ph.color+';opacity:0.75"></div>'+ph.name+'</div>';});h+='</div></div></div>';return h;}
+function renderOverview(){var rows=[{id:'ghost_shark',status:'contracted',statusLabel:'CONTRACTED',iip:'Undersea Warfare XL-AUV',budget:'A$1.7B',priority:'MISSION CRITICAL'},{id:'lattice',status:'active',statusLabel:'ACTIVE',iip:'C2 / All IIP Chapters',budget:'Cross-cutting',priority:'MISSION CRITICAL'},{id:'sentry',status:'active',statusLabel:'ACTIVE (US)',iip:'Base Surveillance / SOCI',budget:'Force protection',priority:'HIGH'},{id:'roadrunner',status:'potential',statusLabel:'NO BID',iip:'IAMD / Base Defence',budget:'CUAS lines',priority:'HIGH'},{id:'pulsar',status:'potential',statusLabel:'NO BID',iip:'Ch 6 Electronic Warfare',budget:'EW chapter',priority:'HIGH'},{id:'fury',status:'pitched',statusLabel:'NOT SELECTED',iip:'Air 6015 CCA / future',budget:'MQ-28A selected',priority:'MEDIUM'},{id:'altius',status:'potential',statusLabel:'NO BID',iip:'Strike / ACCALS / AUKUS',budget:'Strike lines',priority:'MEDIUM'},{id:'ghost_uas',status:'potential',statusLabel:'NO BID',iip:'Army Tactical UAS',budget:'$690M ACCALS',priority:'MEDIUM'}];var h='<div style="margin-bottom:18px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:28px;font-weight:700;color:#fff;margin-bottom:4px">Product <span style="color:var(--red)">×</span> IIP Matrix</div><div style="font-family:\'Share Tech Mono\',monospace;font-size:10px;color:var(--text-dim)">ANDURIL ANZ — ALL PRODUCTS × ADF INTEGRATED INVESTMENT PROGRAM</div></div>';h+='<table class="overview-table"><thead><tr><th>Product</th><th>Category</th><th>ADF Status</th><th>IIP Chapter</th><th>Budget Signal</th><th>Priority</th></tr></thead><tbody>';rows.forEach(function(r){var p=products[r.id];var dc='dot-'+r.status;var pc=r.priority==='MISSION CRITICAL'?'color:var(--red)':r.priority==='HIGH'?'color:var(--amber)':'color:var(--text-dim)';h+='<tr><td><span class="pn-link" onclick="jumpProduct(\''+r.id+'\')">'+p.name+'</span></td><td style="font-size:11px;color:var(--text-dim)">'+p.domain+'</td><td><span class="status-dot '+dc+'"></span><span style="font-family:\'Share Tech Mono\',monospace;font-size:9px;color:var(--text-dim)">'+r.statusLabel+'</span></td><td style="font-size:11px;color:var(--text-mid)">'+r.iip+'</td><td style="font-family:\'Share Tech Mono\',monospace;font-size:10px;color:var(--gold)">'+r.budget+'</td><td style="font-family:\'Share Tech Mono\',monospace;font-size:9px;'+pc+'">'+r.priority+'</td></tr>';});h+='</tbody></table><div style="padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:3px;font-size:11px;color:var(--text-dim)"><strong style="color:var(--text)">Click any product name</strong> to open 6-tab detail: Overview, IIP Mapping, BD Angles, Tender, Actions, and Timeline.</div>';document.getElementById('main').innerHTML=h;}
+function jumpProduct(id){clearActive();var btns=document.querySelectorAll('.product-btn');btns.forEach(function(b){if(b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+id+"'")>-1)b.classList.add('active');});renderProduct(id);}
+function renderTAM(){var h='<div style="margin-bottom:18px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:28px;font-weight:700;color:#fff;margin-bottom:4px">Total Addressable <span style="color:var(--red)">Market</span></div><div style="font-family:\'Share Tech Mono\',monospace;font-size:10px;color:var(--text-dim)">ANDURIL ANZ — IIP 2024–2034 MARKET SIZING &amp; PIPELINE</div></div>';h+='<div class="section-label">Market Funnel — from IIP Total to Contracted</div><div class="tam-funnel">';tam.funnel.forEach(function(tier){h+='<div class="tam-tier"><div class="tam-tier-meta"><div class="tam-tier-name">'+tier.name+'</div><div class="tam-tier-value">'+tier.value+'</div></div><div class="tam-bar-wrap"><div class="tam-bar-fill" style="width:'+tier.pct+'%;background:'+tier.color+'"><span class="tam-bar-label">'+tier.value+'</span></div></div></div>';});h+='</div>';h+='<div class="section-label">Pipeline Headline — ANZ</div><div class="tam-headline">';var hl=[{val:"A$1.9",c:"B",sub:"CONTRACTED — AU + NZDF ADJ.",note:"Ghost Shark Ph.1 + NZDF adjacent — live programs"},{val:"A$4–6",c:"B",sub:"NEAR-TERM PIPELINE FY26–FY29",note:"Qualified AU + NZ opportunities across product suite"},{val:"A$12–18",c:"B",sub:"ANZ DECADE ADDRESSABLE",note:"Direct Anduril addressable share of IIP 2024–2034"}];hl.forEach(function(item){h+='<div class="tam-headline-card"><div class="tam-headline-val">'+item.val+'<span class="c">'+item.c+'</span></div><div class="tam-headline-sub">'+item.sub+'</div><div class="tam-headline-note">'+item.note+'</div></div>';});h+='</div>';h+='<div class="section-label">Key Budget Reference Points</div><table class="overview-table" style="margin-bottom:20px"><thead><tr><th>Budget Line</th><th>Value</th><th>Context</th></tr></thead><tbody>';tam.budgetContext.forEach(function(b){h+='<tr><td style="font-family:\'Barlow Condensed\',sans-serif;font-weight:600;font-size:13px;color:var(--text)">'+b.label+'</td><td style="font-family:\'Share Tech Mono\',monospace;font-size:11px;color:var(--gold)">'+b.value+'</td><td style="font-size:11px;color:var(--text-dim)">'+b.note+'</td></tr>';});h+='</tbody></table>';h+='<div class="section-label">Addressable Market by Segment</div><div class="tam-segments">';tam.segments.forEach(function(seg){var sc=seg.status==='contracted'?'var(--green-bright)':seg.status==='active'?'var(--blue-bright)':seg.status==='pitched'?'var(--amber)':'var(--text-dim)';h+='<div class="tam-segment-card"><div class="tam-seg-name">'+seg.name+'</div><div class="tam-seg-total">IIP/DCP: '+seg.totalAddr+' &nbsp;|&nbsp; Anduril: '+seg.andurilShare+'</div><div style="font-size:10px;color:var(--text-dim);margin-bottom:6px">'+seg.products+'</div><div class="tam-seg-bar-wrap"><div class="tam-seg-bar" style="width:'+seg.sharePct+'%;background:'+sc+'"></div></div><div class="tam-seg-share">'+seg.andurilShare+' addressable &nbsp;·&nbsp; <span style="color:'+sc+'">'+seg.status.toUpperCase()+'</span></div><div style="font-size:10px;color:var(--text-dim);margin-top:3px">'+seg.iipLine+'</div></div>';});h+='</div>';h+='<div class="alert"><strong>METHODOLOGY:</strong> All figures are derived from publicly available IIP 2024 documentation, NDS 2024, NZDF DCP 2024, AusTender data, and public defence analysis. They represent the Anduril-addressable portion of each capability chapter based on product-line fit.</div>';document.getElementById('main').innerHTML=h;}
+function renderGTM(){var h='<div style="margin-bottom:18px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:28px;font-weight:700;color:#fff;margin-bottom:4px">Director <span style="color:var(--red)">GTM</span> Framework</div><div style="font-family:\'Share Tech Mono\',monospace;font-size:10px;color:var(--text-dim)">GO-TO-MARKET STRATEGY — ALIGNED TO ANDURIL BD DIRECTOR JD</div></div>';h+='<div class="section-label">Strategic Mandate — Four Pillars</div><div class="gtm-pillars">';gtm.pillars.forEach(function(p){h+='<div class="gtm-pillar"><div class="gtm-pillar-num">PILLAR '+p.num+'</div><div class="gtm-pillar-title">'+p.title+'</div><div class="gtm-pillar-body">'+p.body+'</div><div class="gtm-pillar-kpi">'+p.kpi+'</div></div>';});h+='</div>';h+='<div class="section-label">Capture Management Framework</div><div class="capture-grid">';gtm.capture.forEach(function(stage){h+='<div class="capture-stage"><div class="cs-num">GATE '+stage.num+'</div><div class="cs-name">'+stage.name+'</div><div class="cs-prob">'+stage.prob+' win prob.</div><div class="cs-gate">'+stage.gate+'</div></div>';});h+='</div>';h+='<div class="section-label">Client Ecosystem — Tier Map</div><div class="gtm-tiers">';gtm.tiers.forEach(function(tier){h+='<div class="gtm-tier-card '+tier.cls+'"><div class="gtm-tier-header"><span class="gtm-tier-title">'+tier.title+'</span><span class="gtm-tier-label">'+tier.label+'</span></div><div class="gtm-tier-contacts">';tier.contacts.forEach(function(c){h+='<div class="gtm-contact">'+c.name+'<span>'+c.note+'</span></div>';});h+='</div></div>';});h+='</div>';h+='<div class="section-label">30 / 60 / 90 Day Onboarding Plan</div><div class="plan-cols">';gtm.plan.forEach(function(col){h+='<div class="plan-col '+col.cls+'"><div class="plan-col-header"><div class="plan-col-days">'+col.days+'</div><div class="plan-col-sub">'+col.sub+'</div></div><div class="plan-items">';col.items.forEach(function(item){h+='<div class="plan-item">'+item+'</div>';});h+='</div></div>';});h+='</div>';h+='<div class="section-label">KPIs — Year 1 Targets</div><div class="kpi-grid">';gtm.kpis.forEach(function(k){var parts=k.value.match(/^([A-Z$]*)([\d,\.>+]+)(.*)/);var dv=parts?((parts[1]||'')+'<span class="c">'+parts[2]+'</span>'+(parts[3]||'')):k.value;h+='<div class="kpi-card"><div class="kpi-label">'+k.label+'</div><div class="kpi-value">'+dv+'</div><div class="kpi-note">'+k.note+'</div></div>';});h+='</div>';document.getElementById('main').innerHTML=h;}
+(function(){var hash=window.location.hash.replace('#','');if(hash&&products[hash]){var btns=document.querySelectorAll('.product-btn');btns.forEach(function(b){if(b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+hash+"'")>-1)b.classList.add('active');});renderProduct(hash);}else{var tamBtn=document.querySelector('.view-btn[onclick*="tam"]');if(tamBtn)tamBtn.classList.add('active');renderTAM();}})();
 </script>
 </body>
 </html>
